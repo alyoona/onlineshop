@@ -1,7 +1,5 @@
 package com.stroganova.onlineshop.entity;
 
-import java.time.LocalDate;
-
 public class Product {
     private long id;
     private String name;

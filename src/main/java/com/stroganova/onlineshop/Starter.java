@@ -1,9 +1,7 @@
 package com.stroganova.onlineshop;
 
-import com.stroganova.onlineshop.dao.ProductDao;
 import com.stroganova.onlineshop.dao.jdbc.ConnectionManager;
 import com.stroganova.onlineshop.dao.jdbc.JdbcProductDao;
-import com.stroganova.onlineshop.entity.Product;
 import com.stroganova.onlineshop.service.ProductService;
 import com.stroganova.onlineshop.web.servlet.AddProductServlet;
 import com.stroganova.onlineshop.web.servlet.AssetsServlet;
@@ -11,7 +9,6 @@ import com.stroganova.onlineshop.web.servlet.ProductsServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
