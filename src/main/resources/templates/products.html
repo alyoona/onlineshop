@@ -16,7 +16,7 @@
 </head>
 <body>
 <header>
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid bg-custom">
         <div class="container">
             <h1 class="display-4">Online-Shop</h1>
             <p class="lead">This is your favorite shop!</p>
@@ -34,23 +34,21 @@
     </nav>
 </header>
 
-<section>
+<section class="products">
     <div class="container">
-        <div class="row m-3">
+        <div class="row m-3 ">
             <!--div class="container my-5"-->
             <#list products as product>
-                <div class="col-md-6 col-lg-3 mb-3">
-                    <div class="card">
-                        <img class="card-img-top zoom" src="<#if product.picturePath??>${product.picturePath}</#if>"
-                             alt="Product image">
-
+                <div class="card col-md-6 col-lg-3 p-0">
+                    <img class="card-img-top zoom p-0" src="<#if product.picturePath??>${product.picturePath}</#if>"
+                         alt="Product image">
                         <div class="card-body">
-                            <h5>${product.name}</h5>
-                            <p>Description: ${product.description}</p>
+                            <div class="card-title m-0 p-0 d-flex justify-content-between">
+                                <h6>${product.name}</h6>
+                                <p>${product.price} $</p>
+                            </div>
+                            <div class="card-text">Description: ${product.description}</div>
                         </div>
-
-                        <div class="card-footer text-muted">Price: ${product.price} $.</div>
-                    </div>
                 </div>
             </#list>
         </div>
