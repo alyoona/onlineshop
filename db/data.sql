@@ -15,3 +15,6 @@ VALUES ('little toy', 'smilies-bank-sit-rest', 874.01, 'https://images.pexels.co
 
 INSERT INTO "OnlineShopSchema"."Products"(name, description, price, "picturePath")
 VALUES ('little toy', 'rose lion', 1580.64, 'https://images.pexels.com/photos/209600/pexels-photo-209600.jpeg?auto=compress&cs=tinysrgb&h=350');
+
+INSERT INTO USERS(login, password) VALUES ('test_user1', 'user1_password');
+INSERT INTO USERS(login, password) VALUES ('test_user2', 'user2_password');

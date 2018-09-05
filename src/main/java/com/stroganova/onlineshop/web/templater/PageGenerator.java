@@ -1,4 +1,4 @@
-package com.stroganova.onlineshop.web.pages;
+package com.stroganova.onlineshop.web.templater;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+    <!--my custom styles:-->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+
+
+<header>
+    <div class="jumbotron jumbotron-fluid bg-custom">
+        <div class="container">
+            <h1 class="display-4">Online-Shop</h1>
+            <p class="lead">This is your favorite shop!</p>
+        </div>
+    </div>
+    <nav>
+        <ul class="nav nav-tabs nav-justified">
+            <#if getProducts??>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/products">All Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products/add">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login/Register</a>
+                </li>
+
+                <#elseif addProduct??>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/products">All Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/products/add">Add Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login/Register</a>
+                    </li>
+                    <#else>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/products">All Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/products/add">Add Product</a>
+                        </li>
+                        <#if authorizedUser??>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#"
+                                       role="button"
+                                       aria-haspopup="true" aria-expanded="false">${authorizedUser}</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="/logout">Log out</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <#else>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="/login">Login/Register</a>
+                                </li>
+                        </#if>
+            </#if>
+        </ul>
+    </nav>
+</header>
+<div class="container my-5">
+
+    <p class="text-danger">
+        <#if accessError??>${accessError}</#if>
+    </p>
+
+    <#if authorizedUser??>
+        <h1 class="display-4 d-flex justify-content-center">Welcome!</h1>
+        <#else>
+
+            <ul class="nav nav-tabs nav-justified">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/login">Login Form</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register Form</a>
+                </li>
+            </ul>
+
+            <form action="/login" method="post" class="mt-3">
+                <input type="text" name="targetUriParameterName" value="${targetUriPageVariable}" hidden>
+                <div class="form-group">
+                    <label for="login" class="font-weight-light">Login:</label>
+                    <input type="text" name="login" class="form-control" id="login" placeholder="Enter user name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="font-weight-light">Password:</label>
+                    <input type="password" class="form-control" name="password" id="password"
+                           placeholder="Enter user password"
+                           required>
+                </div>
+                <div class="form-row">
+                    <div class="col-2">
+                        <button type="submit" class="btn bg-custom">Login</button>
+                    </div>
+                    <div class="col-4">
+                        <p class="text-danger">
+                            <#if authenticationError??>User with such login/password doesn't exist!</#if>
+                        </p>
+                    </div>
+                </div>
+
+            </form>
+
+    </#if>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+</body>
+</html>

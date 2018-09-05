@@ -1,3 +1,10 @@
+.dropdown-menu {
+    left: 50%;
+    right: auto;
+    text-align: center;
+    transform: translate(-50%, 0);
+}
+
 .card {
     border: 1px solid rgba(150, 239, 213, 0.83);
     height: 250px;
@@ -17,8 +24,10 @@ img {
 
 
 .bg-custom {
-    background-color: #c5f4e294
+    background-color: #c5f4e294;
+    border: 1px solid rgba(150, 239, 213, 0.83);
 }
+
 
 .card-img-top {
     /*height: 15vw;*/

@@ -4,6 +4,7 @@ import com.stroganova.onlineshop.dao.ProductDao;
 import com.stroganova.onlineshop.dao.jdbc.mapper.ProductRowMapper;
 import com.stroganova.onlineshop.entity.Product;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,11 @@ public class JdbcProductDao implements ProductDao {
 
 
     private ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
-    private ConnectionManager connectionManager;
+    private DataSource dataSource;
 
     @Override
     public List<Product> getAll() {
-        try (Connection connection = connectionManager.getConnection();
+        try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(GET_ALL_PRODUCTS_SQL)) {
             List<Product> userList = new ArrayList<>();
@@ -37,7 +38,7 @@ public class JdbcProductDao implements ProductDao {
 
     @Override
     public void add(Product product) {
-        try (Connection connection = connectionManager.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_PRODUCT_SQL)) {
 
             statement.setString(1, product.getName());
@@ -51,7 +52,7 @@ public class JdbcProductDao implements ProductDao {
         }
     }
 
-    public void setConnectionManager(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    public JdbcProductDao(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

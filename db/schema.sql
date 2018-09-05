@@ -31,5 +31,17 @@ WITH (
     OIDS = FALSE
 );
 
-ALTER TABLE "OnlineShopSchema"."Product"
+ALTER TABLE "OnlineShopSchema"."Products"
     OWNER to "OnlineShopOwner";
+
+CREATE TABLE "OnlineShopSchema"."Users"
+(
+  id bigserial NOT NULL,
+  login text NOT NULL,
+  password text NOT NULL,
+  user_token text,
+  PRIMARY KEY (id)
+);
+
+ALTER TABLE "OnlineShopSchema"."Users"
+OWNER to "OnlineShopOwner";
