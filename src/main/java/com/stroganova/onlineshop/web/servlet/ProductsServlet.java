@@ -36,7 +36,6 @@ public class ProductsServlet extends HttpServlet{
             pageVariables.put("products", productService.getAll());
 
             PageGenerator pageGenerator = PageGenerator.instance();
-
             String page = pageGenerator.getPage("products.html", pageVariables);
 
             response.setStatus(HttpServletResponse.SC_OK);

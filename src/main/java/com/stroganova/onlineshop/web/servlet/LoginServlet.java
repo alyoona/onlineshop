@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         Map<String, Object> pageVariables = new HashMap<>();
 
         pageVariables.put("targetUriPageVariable", request.getRequestURI());
@@ -27,13 +28,9 @@ public class LoginServlet extends HttpServlet {
         pageVariables.put("accessError", request.getAttribute("accessError"));
         pageVariables.put("getProducts", request.getAttribute("getProducts"));
         pageVariables.put("addProduct", request.getAttribute("addProduct"));
-
-        ServletContext sc = getServletContext();
-
-        /*Don't display Login Form for authorized user*/
-        pageVariables.put("authorizedUser", sc.getAttribute("authorizedUser"));
-
+        pageVariables.put("authorizedUser", userService.getAuthorizedUserLogin(request));
         /*if user enter incorrect login/password*/
+        ServletContext sc = getServletContext();
         pageVariables.put("authenticationError", sc.getAttribute("authenticationError"));
         sc.removeAttribute("authenticationError");
 
@@ -61,8 +58,6 @@ public class LoginServlet extends HttpServlet {
             user.setPassword(password);
             user.setUserToken(cookie.getValue());
             userService.setUserToken(user);
-
-            sc.setAttribute("authorizedUser", login);
 
             response.addCookie(cookie);
             response.sendRedirect(targetUri);

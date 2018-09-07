@@ -1,3 +1,7 @@
+body {
+    color: #0857a6;
+}
+
 .dropdown-menu {
     left: 50%;
     right: auto;
@@ -23,12 +27,46 @@ img {
 }
 
 
+
+.form-link {
+
+    color: #0ebb94;
+}
+
+.form-link--active {
+    color: #0857a6;
+}
+
+a {
+    color: #0ebb94;
+}
+
+a:hover {
+    color: #5aefca;
+}
+a:active {
+    color: #FA6B2B;
+}
+
 .bg-custom {
+    color: #0857a6;
     background-color: #c5f4e294;
     border: 1px solid rgba(150, 239, 213, 0.83);
 }
+.btn-sm {
+    display: inline-flex;
+    padding: 0;
+    font-size: 21px;
+}
+.far, .fas {
+    font-size: 21px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
 
-
+.text-custom {
+    color: #5aefca;
+}
 .card-img-top {
     /*height: 15vw;*/
     /*object-fit: cover;*/

@@ -3,7 +3,6 @@ package com.stroganova.onlineshop.web.servlet;
 import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.service.UserService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -24,10 +23,8 @@ public class RegisterServlet extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("loginIsExistError", request.getParameter("loginIsExistError"));
 
-        ServletContext sc = getServletContext();
-
         /*Don't display Register Form for authorized user*/
-        pageVariables.put("authorizedUser", sc.getAttribute("authorizedUser"));
+        pageVariables.put("authorizedUser", userService.getAuthorizedUserLogin(request));
 
         PageGenerator pageGenerator = PageGenerator.instance();
 
@@ -64,9 +61,6 @@ public class RegisterServlet extends HttpServlet {
             user.setPassword(password);
             user.setUserToken(cookie.getValue());
             userService.add(user);
-
-            ServletContext sc = getServletContext();
-            sc.setAttribute("authorizedUser", login);
 
             response.addCookie(cookie);
             response.sendRedirect("/register");

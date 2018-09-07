@@ -16,7 +16,7 @@ public class LogoutServlet extends HttpServlet {
    private UserService userService;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         for(Cookie cookie : request.getCookies()) {
             if(cookie.getName().equals("user-token")) {
@@ -33,12 +33,10 @@ public class LogoutServlet extends HttpServlet {
 
                 response.addCookie(cookie);
 
-                ServletContext sc = getServletContext();
-                sc.removeAttribute("authorizedUser");
-
                 break;
             }
         }
+        response.setContentType("text/html");
         response.sendRedirect("/products");
     }
 

@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!--my custom styles:-->
     <link rel="stylesheet" href="/assets/css/custom.css">
@@ -32,17 +35,21 @@
             </li>
             <#if authorizedUser??>
                 <li class="nav-item">
-                    <div class="dropdown">
-                        <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                           aria-haspopup="true" aria-expanded="false">${authorizedUser}</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/logout">Log out</a>
+                    <div class="nav-link active">
+                        <div class="d-flex justify-content-center">
+                            <i class="far fa-grin-wink text-custom  my-auto"></i>
+                            <a href="/login" >${authorizedUser},</a>
+                            <form action="/logout" method="post" class="form-inline">
+                                <button class="btn btn-sm bg-transparent text-custom " title="Logout"                                   data-toggle="tooltip">
+                                    <i class="fas fa-sign-out-alt text-custom  my-auto"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </li>
                 <#else>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/login">Login/Register</a>
+                        <a class="nav-link active" href="/login"><i class="fas fa-user text-custom"></i> Login/Register</a>
                     </li>
             </#if>
         </ul>
@@ -57,10 +64,17 @@
 
             <ul class="nav nav-tabs nav-justified">
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login Form</a>
+                    <div class="nav-link d-flex justify-content-center">
+                        <i class="fas fa-sign-in-alt text-custom my-auto"></i>
+                        <a class="form-link" href="/login"> Login Form</a>
+                    </div>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link active" href="/register">Register Form</a>
+                    <div class="nav-link active d-flex justify-content-center">
+                        <i class="fas fa-user-plus text-custom my-auto"></i>
+                        <a class="form-link--active" href="/register"> Register Form</a>
+                    </div>
                 </li>
 
             </ul>
