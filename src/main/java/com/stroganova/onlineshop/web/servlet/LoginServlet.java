@@ -1,8 +1,10 @@
 package com.stroganova.onlineshop.web.servlet;
 
+import com.stroganova.onlineshop.entity.Session;
 import com.stroganova.onlineshop.entity.User;
-import com.stroganova.onlineshop.service.UserService;
+import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
+import com.stroganova.onlineshop.web.util.WebUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -12,29 +14,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class LoginServlet extends HttpServlet {
 
-   private UserService userService;
+    private SecurityService securityService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Map<String, Object> pageVariables = new HashMap<>();
 
-        pageVariables.put("targetUriPageVariable", request.getRequestURI());
-
-        pageVariables.put("accessError", request.getAttribute("accessError"));
-        pageVariables.put("getProducts", request.getAttribute("getProducts"));
-        pageVariables.put("addProduct", request.getAttribute("addProduct"));
-        pageVariables.put("authorizedUser", userService.getAuthorizedUserLogin(request));
-        /*if user enter incorrect login/password*/
-        ServletContext sc = getServletContext();
-        pageVariables.put("authenticationError", sc.getAttribute("authenticationError"));
-        sc.removeAttribute("authenticationError");
+        String token = WebUtil.getToken(request);
+        Session session = securityService.getSession(token);
+        if (session != null) {
+            User user = session.getUser();
+            pageVariables.put("user", user);
+        }
 
         PageGenerator pageGenerator = PageGenerator.instance();
+
         String page = pageGenerator.getPage("login.html", pageVariables);
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("text/html;charset=utf-8");
@@ -46,28 +44,22 @@ public class LoginServlet extends HttpServlet {
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        String targetUri = request.getParameter("targetUriParameterName");
-        ServletContext sc = getServletContext();
 
-        if (userService.isIdentified(login, password)) {
-            String uuid = UUID.randomUUID().toString();
-            Cookie cookie = new Cookie("user-token", uuid);
+        Session session = securityService.auth(login, password);
 
-            User user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
-            user.setUserToken(cookie.getValue());
-            userService.setUserToken(user);
-
+        if (session != null) {
+            Cookie cookie = new Cookie("user-token", session.getToken());
             response.addCookie(cookie);
-            response.sendRedirect(targetUri);
+            response.sendRedirect(request.getRequestURI());
+
+            System.out.println(securityService.toString());
+
         } else {
-            sc.setAttribute("authenticationError", true);
-            response.sendRedirect(targetUri);
+            response.sendRedirect("/login");
         }
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
     }
 }

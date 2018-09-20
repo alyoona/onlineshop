@@ -1,11 +1,13 @@
 package com.stroganova.onlineshop.web.servlet;
 
 import com.stroganova.onlineshop.entity.Product;
+import com.stroganova.onlineshop.entity.Session;
+import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.service.ProductService;
-import com.stroganova.onlineshop.service.UserService;
+import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
+import com.stroganova.onlineshop.web.util.WebUtil;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,57 +19,58 @@ import java.util.Map;
 public class AddProductServlet extends HttpServlet {
 
     private ProductService productService;
-    private UserService userService;
+    private SecurityService securityService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String userLogin = userService.getAuthorizedUserLogin(request);
-        boolean isAuthorized = false;
         Map<String, Object> pageVariables = new HashMap<>();
-        if (userLogin != null) {
-            pageVariables.put("authorizedUser", userLogin);
-            isAuthorized = true;
+        String token = WebUtil.getToken(request);
+        Session session = securityService.getSession(token);
+        if (session != null) {
+            User user = session.getUser();
+            pageVariables.put("user", user);
         }
-
-        if(isAuthorized) {
-
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println(PageGenerator.instance().getPage("add.html", pageVariables));
-        } else {
-            request.setAttribute("accessError", "Adding product is available after authorization");
-            request.setAttribute("addProduct", true);
-            RequestDispatcher rs = request.getRequestDispatcher("/login");
-            rs.include(request, response);
-        }
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().println(PageGenerator.instance().getPage("add.html", pageVariables));
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String name = request.getParameter("name");
-        double price = Double.parseDouble(request.getParameter("price"));
-        String picturePath = request.getParameter("picturePath");
-        String description = request.getParameter("description");
 
-        Product newProduct = new Product();
-        newProduct.setName(name);
-        newProduct.setPrice(price);
-        newProduct.setDescription(description);
-        newProduct.setPicturePath(picturePath);
+        String token = WebUtil.getToken(request);
 
-        productService.add(newProduct);
+        Session session = securityService.getSession(token);
 
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("text/html;charset=utf-8");
-        response.sendRedirect("/products/add");
+        if (session != null) {
+
+            String name = request.getParameter("name");
+            double price = Double.parseDouble(request.getParameter("price"));
+            String picturePath = request.getParameter("picturePath");
+            String description = request.getParameter("description");
+
+            Product newProduct = new Product();
+            newProduct.setName(name);
+            newProduct.setPrice(price);
+            newProduct.setDescription(description);
+            newProduct.setPicturePath(picturePath);
+
+            productService.add(newProduct);
+
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("text/html;charset=utf-8");
+            response.sendRedirect("/products/add");
+        } else {
+            response.sendRedirect("/login");
+        }
     }
 
     public void setProductService(ProductService productService) {
-    this.productService = productService;
+        this.productService = productService;
     }
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
     }
 }

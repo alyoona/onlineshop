@@ -13,7 +13,6 @@ public class UserRowMapper {
         User user = new User();
         user.setLogin(resultSet.getString("login"));
         user.setPassword(resultSet.getString("password"));
-        user.setUserToken(resultSet.getString("user_token"));
         return user;
     }
 }

@@ -3,17 +3,22 @@ package com.stroganova.onlineshop;
 import com.stroganova.onlineshop.dao.jdbc.JdbcProductDao;
 import com.stroganova.onlineshop.dao.jdbc.JdbcUserDao;
 import com.stroganova.onlineshop.service.ProductService;
+import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.UserService;
+import com.stroganova.onlineshop.web.filter.SecurityFilter;
 import com.stroganova.onlineshop.web.servlet.*;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.postgresql.ds.PGSimpleDataSource;
 
+import javax.servlet.DispatcherType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.EnumSet;
 import java.util.Properties;
 
 public class Starter  {
@@ -45,32 +50,48 @@ public class Starter  {
         UserService userService = new UserService();
         userService.setUserDao(jdbcUserDao);
 
+        SecurityService securityService = new SecurityService();
+        securityService.setUserService(userService);
+
         //servlets
         ProductsServlet productsServlet = new ProductsServlet();
         productsServlet.setProductService(productService);
-        productsServlet.setUserService(userService);
+        productsServlet.setSecurityService(securityService);
 
         AddProductServlet addProductServlet = new AddProductServlet();
         addProductServlet.setProductService(productService);
-        addProductServlet.setUserService(userService);
+        addProductServlet.setSecurityService(securityService);
+
 
         LoginServlet loginServlet = new LoginServlet();
-        loginServlet.setUserService(userService);
+        loginServlet.setSecurityService(securityService);
 
         LogoutServlet logoutServlet = new LogoutServlet();
-        logoutServlet.setUserService(userService);
+        logoutServlet.setSecurityService(securityService);
 
         RegisterServlet registerServlet = new RegisterServlet();
         registerServlet.setUserService(userService);
+        registerServlet.setSecurityService(securityService);
+
+        SecurityFilter securityFilter = new SecurityFilter();
+        securityFilter.setSecurityService(securityService);
 
         //server config
         ServletContextHandler servletContextHandler = new ServletContextHandler();
-        servletContextHandler.addServlet(new ServletHolder(productsServlet), "/products/*");
-        servletContextHandler.addServlet(new ServletHolder(new AssetsServlet()), "/assets/*");
+        servletContextHandler.addServlet(new ServletHolder(productsServlet), "/products");
         servletContextHandler.addServlet(new ServletHolder(addProductServlet), "/products/add");
+
+        servletContextHandler.addServlet(new ServletHolder(new AssetsServlet()), "/assets/*");
+
         servletContextHandler.addServlet(new ServletHolder(loginServlet), "/login");
         servletContextHandler.addServlet(new ServletHolder(logoutServlet), "/logout");
         servletContextHandler.addServlet(new ServletHolder(registerServlet), "/register");
+
+        //filter
+        servletContextHandler.addFilter(new FilterHolder(securityFilter), "/products/add",
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+        servletContextHandler.addFilter(new FilterHolder(securityFilter), "/products",
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //start
         Server server = new Server(8080);

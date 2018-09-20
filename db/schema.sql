@@ -39,7 +39,6 @@ CREATE TABLE "OnlineShopSchema"."Users"
   id bigserial NOT NULL,
   login text NOT NULL,
   password text NOT NULL,
-  user_token text,
   PRIMARY KEY (id)
 );
 
