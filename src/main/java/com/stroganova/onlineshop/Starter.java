@@ -78,7 +78,9 @@ public class Starter  {
 
         //server config
         ServletContextHandler servletContextHandler = new ServletContextHandler();
-        servletContextHandler.addServlet(new ServletHolder(productsServlet), "/products");
+        ServletHolder productsServletHolder = new ServletHolder(productsServlet);
+        servletContextHandler.addServlet(productsServletHolder, "/");
+        servletContextHandler.addServlet(productsServletHolder, "/products");
         servletContextHandler.addServlet(new ServletHolder(addProductServlet), "/products/add");
 
         servletContextHandler.addServlet(new ServletHolder(new AssetsServlet()), "/assets/*");
@@ -88,9 +90,10 @@ public class Starter  {
         servletContextHandler.addServlet(new ServletHolder(registerServlet), "/register");
 
         //filter
-        servletContextHandler.addFilter(new FilterHolder(securityFilter), "/products/add",
+        FilterHolder filterHolder = new FilterHolder(securityFilter);
+        servletContextHandler.addFilter(filterHolder, "/products/add",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(new FilterHolder(securityFilter), "/products",
+        servletContextHandler.addFilter(filterHolder, "/products",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //start

@@ -12,9 +12,9 @@ import java.util.List;
 public class JdbcProductDao implements ProductDao {
 
     private final static String GET_ALL_PRODUCTS_SQL =
-            "SELECT id, name, description, price, \"picturePath\" FROM \"OnlineShopSchema\".\"Products\";";
+            "SELECT id, name, description, price, picturePath FROM OnlineShopSchema.Products;";
     private final static String ADD_PRODUCT_SQL =
-            "INSERT INTO \"OnlineShopSchema\".\"Products\"(name, description, price, \"picturePath\") VALUES (?, ?, ?, ?);";
+            "INSERT INTO OnlineShopSchema.Products(name, description, price, picturePath) VALUES (?, ?, ?, ?);";
 
 
     private ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();

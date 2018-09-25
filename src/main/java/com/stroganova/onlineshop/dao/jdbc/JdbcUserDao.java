@@ -12,8 +12,8 @@ import java.sql.SQLException;
 
 public class JdbcUserDao implements UserDao {
 
-    private final static String FIND_USER_SQL = "SELECT login, password FROM \"OnlineShopSchema\".\"Users\" WHERE login = ? AND password = ?;";
-    private final static String INSERT_USER_SQL = "INSERT INTO \"OnlineShopSchema\".\"Users\" (login, password) VALUES (?, ?);";
+    private final static String FIND_USER_SQL = "SELECT login, password FROM OnlineShopSchema.Users WHERE login = ? AND password = ?;";
+    private final static String INSERT_USER_SQL = "INSERT INTO OnlineShopSchema.Users (login, password) VALUES (?, ?);";
     private DataSource dataSource;
     private UserRowMapper userRowMapper = new UserRowMapper();
 
