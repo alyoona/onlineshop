@@ -18,12 +18,12 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String token = WebUtil.getToken(request);
-        Session session = securityService.getSession(token);
-        if (session != null) {
-            filterChain.doFilter(request, response);
-        } else {
-            response.sendRedirect("/login");
-        }
+            Session session = securityService.getSession(token);
+            if (session != null) {
+                filterChain.doFilter(request, response);
+            } else {
+                response.sendRedirect("/login");
+            }
     }
 
     public void setSecurityService(SecurityService securityService) {

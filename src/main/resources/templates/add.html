@@ -14,7 +14,8 @@
     <!--my custom styles:-->
     <link rel="stylesheet" href="/assets/css/custom.css">
 
-    <title>Hello, world!</title>
+    <title>Online-Shop</title>
+
 </head>
 <body>
 <header>
@@ -33,11 +34,13 @@
                 <a class="nav-link active" href="/products/add">Add Product</a>
             </li>
 
-            <#if user??>
+            <#if session??>
                 <li class="nav-item">
                         <div class="nav-link">
                             <div class="d-flex justify-content-center mx-0">
-                                <a href="/login" class="mx-3"><i class="far fa-grin-wink text-custom"></i>${user.login}</a>
+                                <a href="/cart" class="mx-3" title="Cart">
+                                    <i class="fas fa-shopping-cart text-custom"></i>
+                                </a>
 
                                 <form action="/logout" method="post" class="form-inline">
                                     <div class="mb-1"></div>

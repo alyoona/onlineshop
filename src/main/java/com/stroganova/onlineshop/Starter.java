@@ -53,6 +53,11 @@ public class Starter  {
         SecurityService securityService = new SecurityService();
         securityService.setUserService(userService);
 
+
+        //filter
+        SecurityFilter securityFilter = new SecurityFilter();
+        securityFilter.setSecurityService(securityService);
+
         //servlets
         ProductsServlet productsServlet = new ProductsServlet();
         productsServlet.setProductService(productService);
@@ -73,8 +78,9 @@ public class Starter  {
         registerServlet.setUserService(userService);
         registerServlet.setSecurityService(securityService);
 
-        SecurityFilter securityFilter = new SecurityFilter();
-        securityFilter.setSecurityService(securityService);
+        CartServlet cartServlet = new CartServlet();
+        cartServlet.setProductService(productService);
+        cartServlet.setSecurityService(securityService);
 
         //server config
         ServletContextHandler servletContextHandler = new ServletContextHandler();
@@ -88,12 +94,15 @@ public class Starter  {
         servletContextHandler.addServlet(new ServletHolder(loginServlet), "/login");
         servletContextHandler.addServlet(new ServletHolder(logoutServlet), "/logout");
         servletContextHandler.addServlet(new ServletHolder(registerServlet), "/register");
+        servletContextHandler.addServlet(new ServletHolder(cartServlet), "/cart");
 
         //filter
         FilterHolder filterHolder = new FilterHolder(securityFilter);
         servletContextHandler.addFilter(filterHolder, "/products/add",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
         servletContextHandler.addFilter(filterHolder, "/products",
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+        servletContextHandler.addFilter(filterHolder, "/",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //start

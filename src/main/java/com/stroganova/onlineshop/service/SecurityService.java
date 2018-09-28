@@ -3,16 +3,23 @@ package com.stroganova.onlineshop.service;
 import com.stroganova.onlineshop.entity.Session;
 import com.stroganova.onlineshop.entity.User;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class SecurityService {
 
-    UserService userService;
+    private UserService userService;
 
-    List<Session> sessionsList = new ArrayList<>();
+    private List<Session> sessionsList = Collections.synchronizedList(new ArrayList<>());
+
+    public Session register(String username, String password) {
+        User user = new User();
+        user.setLogin(username);
+        user.setPassword(password);
+        userService.add(user);
+        Session session = auth(username, password);
+        return session;
+    }
 
     public Session auth(String username, String password) {
         User user = userService.getUser(username, password);
@@ -21,6 +28,7 @@ public class SecurityService {
             String uuid = UUID.randomUUID().toString();
             session.setToken(uuid);
             session.setUser(user);
+            session.setExpireDate(LocalDateTime.now().plusHours(3));
             sessionsList.add(session);
             return session;
         }
@@ -39,8 +47,15 @@ public class SecurityService {
 
     public Session getSession(String token) {
         for (Session session : sessionsList) {
-            if (token.equals(session.getToken())) {
-                return session;
+            if (token != null) {
+                if (token.equals(session.getToken())) {
+//                if(session.getExpireDate().isAfter(LocalDateTime.now())) {
+//                    System.out.println("Session is expired!");
+//                    sessionsList.remove(session);
+//                    return null;
+//                }
+                    return session;
+                }
             }
         }
         return null;

@@ -5,12 +5,14 @@ import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.UserService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 public class RegisterServlet extends HttpServlet {
 
     private SecurityService securityService;
@@ -34,28 +36,20 @@ public class RegisterServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        User user = userService.getUser(login, password);
-        if (user == null) {
-            user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
-            userService.add(user);
-
-            Session session = securityService.auth(login, password);
-            if(session != null) {
-                Cookie cookie = new Cookie("user-token", session.getToken());
-                response.addCookie(cookie);
-                response.sendRedirect("/");
-            }
-
-        } else {
-            response.sendRedirect("/login");
+        Session session = securityService.register(login, password);
+        if (session != null) {
+            Cookie cookie = new Cookie("user-token", session.getToken());
+            response.addCookie(cookie);
+            response.sendRedirect("/");
         }
+
+
     }
 
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
     public void setSecurityService(SecurityService securityService) {
         this.securityService = securityService;
     }

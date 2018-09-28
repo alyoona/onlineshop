@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <!--fontawesome-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!--my custom styles:-->
     <link rel="stylesheet" href="/assets/css/custom.css">
@@ -27,32 +28,27 @@
     <nav>
         <ul class="nav nav-tabs nav-justified">
             <li class="nav-item">
-                <a class="nav-link active" href="/products">All Products</a>
+                <a class="nav-link" href="/products">All Products</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/products/add">Add Product</a>
             </li>
+            <li class="nav-item">
+                <div class="nav-link active">
+                    <div class="d-flex justify-content-center mx-0">
+                        <a href="/cart" class="mx-3" title="Cart">
+                            <i class="fas fa-shopping-cart text-custom"></i>
+                        </a>
 
-            <#if session??>
-                <li class="nav-item">
-                    <div class="nav-link">
-                        <div class="d-flex justify-content-center mx-0">
-                            <a href="/cart" class="mx-3" title="Cart">
-                                <i class="fas fa-shopping-cart text-custom"></i>
-                            </a>
-
-                            <form action="/logout" method="post" class="form-inline">
-                                <div class="mb-1"></div>
-                                <button class="btn btn-sm bg-transparent text-custom mb-0" title="Logout" data-toggle="tooltip"><i class="fas fa-sign-out-alt text-custom "></i></button>
-                            </form>
-                        </div>
+                        <form action="/logout" method="post" class="form-inline">
+                            <div class="mb-1"></div>
+                            <button class="btn btn-sm bg-transparent text-custom mb-0" title="Logout"
+                                    data-toggle="tooltip"><i class="fas fa-sign-out-alt text-custom "></i></button>
+                        </form>
                     </div>
-                </li>
-                <#else>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login"><i class="fas fa-user text-custom"></i> Login/Register</a>
-                    </li>
-            </#if>
+                </div>
+            </li>
+
         </ul>
     </nav>
 </header>
@@ -62,7 +58,7 @@
     <div class="container">
         <div class="row m-3 ">
             <!--div class="container my-5"-->
-            <#list products as product>
+            <#list cart as product>
                 <div class="card col-md-6 col-lg-3 p-0">
                     <img class="card-img-top zoom p-0" src="<#if product.picturePath??>${product.picturePath}</#if>"
                          alt="Product image">
@@ -72,11 +68,7 @@
                             <p>${product.price} $</p>
                         </div>
                         <div class="card-text d-flex justify-content-between">
-                        <form action="/cart" method="post" class="form-inline">
-                            <input type="text" name="id" value=${product.id} hidden>
-                            <button type="submit" class="btn btn-sm bg-transparent text-custom mb-0" title="Add to Cart"><i class="fas fa-cart-plus text-custom"></i></button>
-                        </form>
-                            <p >Description: ${product.description}</p>
+                            <p>Description: ${product.description}</p>
                         </div>
 
 

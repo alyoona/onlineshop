@@ -15,9 +15,11 @@ public class JdbcProductDao implements ProductDao {
             "SELECT id, name, description, price, picturePath FROM OnlineShopSchema.Products;";
     private final static String ADD_PRODUCT_SQL =
             "INSERT INTO OnlineShopSchema.Products(name, description, price, picturePath) VALUES (?, ?, ?, ?);";
+    private final static String GET_PRODUCT_BY_ID_SQL =
+            "SELECT id, name, description, price, picturePath FROM OnlineShopSchema.Products WHERE id = ?;";
 
 
-    private ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
+    private final static ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
     private DataSource dataSource;
 
     @Override
@@ -51,6 +53,24 @@ public class JdbcProductDao implements ProductDao {
             throw new RuntimeException("error while adding product", e);
         }
     }
+
+    @Override
+    public Product getProduct(long id) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_PRODUCT_BY_ID_SQL)) {
+            statement.setLong(1, id);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
+                    return product;
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("error while getting product by id", e);
+        }
+    }
+
 
     public JdbcProductDao(DataSource dataSource) {
         this.dataSource = dataSource;

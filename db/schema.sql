@@ -15,7 +15,7 @@ CREATE TABLE OnlineShopSchema.Products
 CREATE TABLE OnlineShopSchema.Users
 (
   id bigserial NOT NULL,
-  login text NOT NULL,
+  login text NOT NULL UNIQUE,
   password text NOT NULL,
   PRIMARY KEY (id)
 );

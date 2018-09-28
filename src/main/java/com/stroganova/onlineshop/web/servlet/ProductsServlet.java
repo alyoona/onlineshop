@@ -28,8 +28,7 @@ public class ProductsServlet extends HttpServlet {
 
         Session session = securityService.getSession(token);
         if (session != null) {
-            User user = session.getUser();
-            pageVariables.put("user", user);
+            pageVariables.put("session", session);
         }
 
         pageVariables.put("products", productService.getAll());

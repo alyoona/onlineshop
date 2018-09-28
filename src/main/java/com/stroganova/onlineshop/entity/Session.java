@@ -1,11 +1,16 @@
 package com.stroganova.onlineshop.entity;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Session {
 
-    String token;
-
-
-    User user;
+    private String token;
+    private User user;
+    private LocalDateTime expireDate;
+    private List<Product> cart = Collections.synchronizedList(new ArrayList<>());
 
     public String getToken() {
         return token;
@@ -23,14 +28,26 @@ public class Session {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Session{");
-        sb.append("token='").append(token).append('\'');
-        sb.append(", user=").append(user);
-        sb.append('}');
-        return sb.toString();
+    public LocalDateTime getExpireDate() {
+        return expireDate;
     }
 
+    public List<Product> getCart() {
+        return cart;
+    }
 
+    public void addToCart(Product product) {
+        cart.add(product);
+    }
+
+    public void setExpireDate(LocalDateTime expireDate) {
+        this.expireDate = expireDate;
+    }
+    @Override
+    public String toString() {
+        return "Session{" +
+                "token='" + token + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }
