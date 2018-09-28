@@ -21,7 +21,6 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-
     public Product getProduct(long id) {
         return productDao.getProduct(id);
     }

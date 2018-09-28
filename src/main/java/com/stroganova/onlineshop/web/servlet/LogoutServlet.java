@@ -19,8 +19,6 @@ public class LogoutServlet extends HttpServlet {
         if (token != null) {
             securityService.logout(token);
 
-            System.out.println(securityService.toString());
-
             response.sendRedirect("/login");
         }
     }

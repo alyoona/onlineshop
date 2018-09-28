@@ -2,8 +2,6 @@ package com.stroganova.onlineshop.service;
 
 import com.stroganova.onlineshop.dao.UserDao;
 import com.stroganova.onlineshop.entity.User;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 
 public class UserService {
 

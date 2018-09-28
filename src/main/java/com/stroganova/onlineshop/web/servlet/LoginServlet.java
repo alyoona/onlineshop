@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoPeriod;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,15 +51,8 @@ public class LoginServlet extends HttpServlet {
         Session session = securityService.auth(login, password);
 
         if (session != null) {
-            Cookie cookie = new Cookie("user-token", session.getToken());
-
-            //cookie.setMaxAge(LocalDateTime.now().getSecond() - session.getExpireDate().getSecond());//разница между "сроком годности До" и текущим....
-
-            response.addCookie(cookie);
+            response.addCookie(WebUtil.getSessionCookie(session));
             response.sendRedirect("/");
-
-            System.out.println(securityService.toString());
-
         } else {
             response.sendRedirect("/login");
         }

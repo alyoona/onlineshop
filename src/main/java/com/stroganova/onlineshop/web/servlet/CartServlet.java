@@ -25,10 +25,10 @@ public class CartServlet extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
 
         String token = WebUtil.getToken(request);
-
         Session session = securityService.getSession(token);
-        pageVariables.put("cart", session.getCart());
-
+        if(session != null) {
+            pageVariables.put("cart", session.getCart());
+        }
         PageGenerator pageGenerator = PageGenerator.instance();
         String page = pageGenerator.getPage("cart.html", pageVariables);
 
@@ -42,7 +42,6 @@ public class CartServlet extends HttpServlet {
         long id = Long.parseLong(request.getParameter("id"));
         Product product = productService.getProduct(id);
         String token = WebUtil.getToken(request);
-
         Session session = securityService.getSession(token);
         session.addToCart(product);
         response.sendRedirect("/products");

@@ -43,11 +43,14 @@ public class Session {
     public void setExpireDate(LocalDateTime expireDate) {
         this.expireDate = expireDate;
     }
+
     @Override
     public String toString() {
-        return "Session{" +
+        return "\nSession{" +
                 "token='" + token + '\'' +
                 ", user=" + user +
-                '}';
+                ", expireDate=" + expireDate +
+                ", cart=" + cart +
+                "}";
     }
 }

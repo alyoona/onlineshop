@@ -102,6 +102,8 @@ public class Starter  {
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
         servletContextHandler.addFilter(filterHolder, "/products",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+        servletContextHandler.addFilter(filterHolder, "/cart",
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
         servletContextHandler.addFilter(filterHolder, "/",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 

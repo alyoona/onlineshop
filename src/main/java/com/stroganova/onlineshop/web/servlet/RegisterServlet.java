@@ -5,6 +5,7 @@ import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.UserService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
+import com.stroganova.onlineshop.web.util.WebUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -38,12 +39,9 @@ public class RegisterServlet extends HttpServlet {
 
         Session session = securityService.register(login, password);
         if (session != null) {
-            Cookie cookie = new Cookie("user-token", session.getToken());
-            response.addCookie(cookie);
+            response.addCookie(WebUtil.getSessionCookie(session));
             response.sendRedirect("/");
         }
-
-
     }
 
     public void setUserService(UserService userService) {

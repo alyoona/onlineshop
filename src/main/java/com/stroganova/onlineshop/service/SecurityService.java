@@ -28,7 +28,7 @@ public class SecurityService {
             String uuid = UUID.randomUUID().toString();
             session.setToken(uuid);
             session.setUser(user);
-            session.setExpireDate(LocalDateTime.now().plusHours(3));
+            session.setExpireDate(LocalDateTime.now().plusSeconds(15));
             sessionsList.add(session);
             return session;
         }
@@ -37,7 +37,7 @@ public class SecurityService {
 
     public void logout(String token) {
         Iterator<Session> sessionIterator = sessionsList.iterator();
-        while(sessionIterator.hasNext()) {
+        while (sessionIterator.hasNext()) {
             Session session = sessionIterator.next();
             if (token.equals(session.getToken())) {
                 sessionIterator.remove();
@@ -49,11 +49,11 @@ public class SecurityService {
         for (Session session : sessionsList) {
             if (token != null) {
                 if (token.equals(session.getToken())) {
-//                if(session.getExpireDate().isAfter(LocalDateTime.now())) {
-//                    System.out.println("Session is expired!");
-//                    sessionsList.remove(session);
-//                    return null;
-//                }
+
+                    if (LocalDateTime.now().isAfter(session.getExpireDate())) {
+                        logout(token);
+                        return null;
+                    }
                     return session;
                 }
             }
@@ -65,12 +65,10 @@ public class SecurityService {
         this.userService = userService;
     }
 
-
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("SecurityService{");
-        sb.append("sessionsList=").append(sessionsList);
-        sb.append('}');
-        return sb.toString();
+        return "SecurityService{" +
+                "sessionsList=" + sessionsList +
+                '}';
     }
 }

@@ -27,7 +27,6 @@ public class AddProductServlet extends HttpServlet {
         String token = WebUtil.getToken(request);
         Session session = securityService.getSession(token);
         if (session != null) {
-            //User user = session.getUser();
             pageVariables.put("session", session);
         }
         response.setStatus(HttpServletResponse.SC_OK);
