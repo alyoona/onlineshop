@@ -2,7 +2,6 @@ package com.stroganova.onlineshop.web.servlet;
 
 import com.stroganova.onlineshop.entity.Product;
 import com.stroganova.onlineshop.entity.Session;
-import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.service.ProductService;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
@@ -37,13 +36,6 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-        String token = WebUtil.getToken(request);
-
-        Session session = securityService.getSession(token);
-
-        if (session != null) {
-
             String name = request.getParameter("name");
             double price = Double.parseDouble(request.getParameter("price"));
             String picturePath = request.getParameter("picturePath");
@@ -60,9 +52,6 @@ public class AddProductServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("text/html;charset=utf-8");
             response.sendRedirect("/products/add");
-        } else {
-            response.sendRedirect("/login");
-        }
     }
 
     public void setProductService(ProductService productService) {

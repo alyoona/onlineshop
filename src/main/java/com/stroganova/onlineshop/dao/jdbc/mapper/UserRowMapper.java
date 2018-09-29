@@ -1,7 +1,5 @@
 package com.stroganova.onlineshop.dao.jdbc.mapper;
 
-
-
 import com.stroganova.onlineshop.entity.User;
 
 import java.sql.ResultSet;

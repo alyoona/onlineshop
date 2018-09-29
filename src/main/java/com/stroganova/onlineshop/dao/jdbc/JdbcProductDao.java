@@ -18,7 +18,6 @@ public class JdbcProductDao implements ProductDao {
     private final static String GET_PRODUCT_BY_ID_SQL =
             "SELECT id, name, description, price, picturePath FROM OnlineShopSchema.Products WHERE id = ?;";
 
-
     private final static ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
     private DataSource dataSource;
 
@@ -61,8 +60,7 @@ public class JdbcProductDao implements ProductDao {
             statement.setLong(1, id);
             try(ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
-                    return product;
+                    return PRODUCT_ROW_MAPPER.mapRow(resultSet);
                 }
                 return null;
             }

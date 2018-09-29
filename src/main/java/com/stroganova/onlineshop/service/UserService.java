@@ -7,7 +7,7 @@ public class UserService {
 
     private UserDao userDao;
 
-    public User getUser(String username, String password) {
+    User getUser(String username, String password) {
         return userDao.getUser(username, password);
     }
 

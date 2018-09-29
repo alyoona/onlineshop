@@ -1,20 +1,15 @@
 package com.stroganova.onlineshop.web.servlet;
 
 import com.stroganova.onlineshop.entity.Session;
-import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
 import com.stroganova.onlineshop.web.util.WebUtil;
 
 import javax.servlet.*;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoPeriod;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +25,7 @@ public class LoginServlet extends HttpServlet {
         String token = WebUtil.getToken(request);
         Session session = securityService.getSession(token);
         if (session != null) {
-            User user = session.getUser();
-            pageVariables.put("user", user);
+            pageVariables.put("session", session);
         }
 
         PageGenerator pageGenerator = PageGenerator.instance();
@@ -54,7 +48,7 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(WebUtil.getSessionCookie(session));
             response.sendRedirect("/");
         } else {
-            response.sendRedirect("/login");
+           response.sendRedirect("/login");
         }
     }
 

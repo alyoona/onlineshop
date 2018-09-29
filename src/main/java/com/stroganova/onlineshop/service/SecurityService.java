@@ -17,8 +17,7 @@ public class SecurityService {
         user.setLogin(username);
         user.setPassword(password);
         userService.add(user);
-        Session session = auth(username, password);
-        return session;
+        return auth(username, password);
     }
 
     public Session auth(String username, String password) {
@@ -49,7 +48,6 @@ public class SecurityService {
         for (Session session : sessionsList) {
             if (token != null) {
                 if (token.equals(session.getToken())) {
-
                     if (LocalDateTime.now().isAfter(session.getExpireDate())) {
                         logout(token);
                         return null;

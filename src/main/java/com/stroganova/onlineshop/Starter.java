@@ -75,7 +75,6 @@ public class Starter  {
         logoutServlet.setSecurityService(securityService);
 
         RegisterServlet registerServlet = new RegisterServlet();
-        registerServlet.setUserService(userService);
         registerServlet.setSecurityService(securityService);
 
         CartServlet cartServlet = new CartServlet();

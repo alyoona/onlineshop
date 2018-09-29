@@ -1,7 +1,6 @@
 package com.stroganova.onlineshop.web.servlet;
 
 import com.stroganova.onlineshop.entity.Session;
-import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.service.ProductService;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
