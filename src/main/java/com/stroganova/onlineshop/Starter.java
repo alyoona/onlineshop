@@ -16,8 +16,6 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.servlet.DispatcherType;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.Properties;
 
@@ -26,7 +24,9 @@ public class Starter  {
     public static void main(String[] args) throws Exception {
         //Properties
         Properties properties = new Properties();
-        try (InputStream inputStream = Files.newInputStream(Paths.get("src/main/resources/application.properties"))
+        Starter starter = new Starter();
+        try (InputStream inputStream = starter.getClass().getResourceAsStream("/application.properties")
+
         ) {
             properties.load(inputStream);
         } catch (IOException e) {
