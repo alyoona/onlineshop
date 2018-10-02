@@ -23,12 +23,8 @@ public class ProductsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
 
-        String token = WebUtil.getToken(request);
-
-        Session session = securityService.getSession(token);
-        if (session != null) {
-            pageVariables.put("session", session);
-        }
+        Session session = (Session) request.getAttribute("session");
+        pageVariables.put("session", session);
 
         pageVariables.put("products", productService.getAll());
 

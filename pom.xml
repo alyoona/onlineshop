@@ -6,7 +6,7 @@
 
     <groupId>com.stroganova</groupId>
     <artifactId>online-shop</artifactId>
-    <version>demo</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <build>
         <plugins>
@@ -50,7 +50,6 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>${artifactId}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
             </plugin>
@@ -79,6 +78,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
         </dependency>
 
         <!--DB-->

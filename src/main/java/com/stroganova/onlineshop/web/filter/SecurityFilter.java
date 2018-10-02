@@ -14,16 +14,24 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
         String token = WebUtil.getToken(request);
+        boolean isAuth = false;
+
+        if(token != null) {
             Session session = securityService.getSession(token);
             if (session != null) {
-                filterChain.doFilter(request, response);
-            } else {
-                response.sendRedirect("/login");
+                request.setAttribute("session", session);
+                filterChain.doFilter(servletRequest, servletResponse);
+                isAuth = true;
             }
+        }
+
+        if(!isAuth) {
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+            response.sendRedirect("/login");
+        }
     }
 
     public void setSecurityService(SecurityService securityService) {

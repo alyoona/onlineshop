@@ -6,6 +6,7 @@ import com.stroganova.onlineshop.service.ProductService;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.UserService;
 import com.stroganova.onlineshop.web.filter.SecurityFilter;
+import com.stroganova.onlineshop.web.filter.UserRoleFilter;
 import com.stroganova.onlineshop.web.servlet.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -19,15 +20,12 @@ import java.io.InputStream;
 import java.util.EnumSet;
 import java.util.Properties;
 
-public class Starter  {
+public class Starter {
 
     public static void main(String[] args) throws Exception {
         //Properties
         Properties properties = new Properties();
-        Starter starter = new Starter();
-        try (InputStream inputStream = starter.getClass().getResourceAsStream("/application.properties")
-
-        ) {
+        try (InputStream inputStream = Starter.class.getResourceAsStream("/application.properties")) {
             properties.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException("error while loading properties file", e);
@@ -54,9 +52,12 @@ public class Starter  {
         securityService.setUserService(userService);
 
 
-        //filter
+        //filters
         SecurityFilter securityFilter = new SecurityFilter();
         securityFilter.setSecurityService(securityService);
+
+        UserRoleFilter userRoleFilter = new UserRoleFilter();
+
 
         //servlets
         ProductsServlet productsServlet = new ProductsServlet();
@@ -79,7 +80,6 @@ public class Starter  {
 
         CartServlet cartServlet = new CartServlet();
         cartServlet.setProductService(productService);
-        cartServlet.setSecurityService(securityService);
 
         //server config
         ServletContextHandler servletContextHandler = new ServletContextHandler();
@@ -95,15 +95,21 @@ public class Starter  {
         servletContextHandler.addServlet(new ServletHolder(registerServlet), "/register");
         servletContextHandler.addServlet(new ServletHolder(cartServlet), "/cart");
 
-        //filter
-        FilterHolder filterHolder = new FilterHolder(securityFilter);
-        servletContextHandler.addFilter(filterHolder, "/products/add",
+
+        //filter config
+        FilterHolder filterHolderForSecurityFilter = new FilterHolder(securityFilter);
+        FilterHolder filterHolderForUserRoleFilter = new FilterHolder(userRoleFilter);
+
+        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/products/add",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolder, "/products",
+        servletContextHandler.addFilter(filterHolderForUserRoleFilter, "/products/add",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolder, "/cart",
+
+        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/products",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolder, "/",
+        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/cart",
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //start

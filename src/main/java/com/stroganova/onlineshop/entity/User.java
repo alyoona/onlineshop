@@ -4,13 +4,8 @@ public class User {
 
     private String login;
     private String password;
-
-    public User(){}
-
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
+    private String salt;
+    private String role;
 
     public String getLogin() {
         return login;
@@ -28,4 +23,19 @@ public class User {
         this.password = password;
     }
 
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
 }

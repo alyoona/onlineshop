@@ -20,8 +20,7 @@ public class SecurityFilterTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);
 
-        Cookie[] cookies = new Cookie[1];
-        cookies[0] = new Cookie("user-token", "123456789");
+        Cookie[] cookies = {new Cookie("user-token", "123456789")};
         when(request.getCookies()).thenReturn(cookies);
 
         SecurityFilter securityFilter = new SecurityFilter();

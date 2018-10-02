@@ -22,12 +22,8 @@ public class LoginServlet extends HttpServlet {
 
         Map<String, Object> pageVariables = new HashMap<>();
 
-        String token = WebUtil.getToken(request);
-        Session session = securityService.getSession(token);
-        if (session != null) {
-            pageVariables.put("session", session);
-        }
-
+        Session session = (Session) request.getAttribute("session");
+        pageVariables.put("session", session);
         PageGenerator pageGenerator = PageGenerator.instance();
 
         String page = pageGenerator.getPage("login.html", pageVariables);
@@ -39,10 +35,10 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String login = request.getParameter("login");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Session session = securityService.auth(login, password);
+        Session session = securityService.login(username, password);
 
         if (session != null) {
             response.addCookie(WebUtil.getSessionCookie(session));

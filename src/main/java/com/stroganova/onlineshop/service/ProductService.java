@@ -17,11 +17,11 @@ public class ProductService {
         productDao.add(product);
     }
 
-    public void setProductDao(ProductDao productDao) {
-        this.productDao = productDao;
-    }
-
     public Product getProduct(long id) {
         return productDao.getProduct(id);
+    }
+
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
     }
 }

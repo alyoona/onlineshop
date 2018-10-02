@@ -4,7 +4,7 @@ import com.stroganova.onlineshop.entity.User;
 
 public interface UserDao {
 
-    User getUser(String username, String password);
+    User getUser(String username);
 
     void add(User user);
 
