@@ -1,8 +1,7 @@
-CREATE DATABASE OnlineShopDB;
 
-CREATE SCHEMA OnlineShopSchema;
+CREATE SCHEMA onlineshopschema;
 
-CREATE TABLE OnlineShopSchema.Products
+CREATE TABLE onlineshopschema.products
 (
     id bigserial NOT NULL,
     name text NOT NULL,
@@ -12,7 +11,7 @@ CREATE TABLE OnlineShopSchema.Products
     PRIMARY KEY (id)
 );
 
-CREATE TABLE OnlineShopSchema.Users
+CREATE TABLE onlineshopschema.users
 (
   id bigserial NOT NULL,
   login text NOT NULL UNIQUE,
@@ -21,14 +20,14 @@ CREATE TABLE OnlineShopSchema.Users
   PRIMARY KEY (id)
 );
 
-CREATE TABLE OnlineShopSchema.roles
+CREATE TABLE onlineshopschema.roles
 (
   id bigserial NOT NULL,
   role text NOT NULL,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE OnlineShopSchema.user_roles
+CREATE TABLE onlineshopschema.user_roles
 (
   id bigserial NOT NULL,
   user_id bigserial NOT NULL,

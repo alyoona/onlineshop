@@ -9,14 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 public class AssetsServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //String pathInfo = request.getPathInfo();
-        //Files.copy(Paths.get( "src/main/resources/assets", pathInfo), response.getOutputStream());
-
         String pathInfo = request.getServletPath() + request.getPathInfo();
         InputStream inputStream = this.getClass().getResourceAsStream(pathInfo);
         IOUtils.copy(inputStream, response.getOutputStream());
-
     }
 }

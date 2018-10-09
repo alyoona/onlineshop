@@ -1,0 +1,57 @@
+<configuration scan="true">
+
+    <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>sessionId</key>
+            <defaultValue>application</defaultValue>
+        </discriminator>
+        <sift>
+            <timestamp key="bySecond" datePattern="yyyyMMddHHmmss"/>
+            <appender name="FILE-${bySecond}_${sessionId}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>src/log/${bySecond}_${sessionId}.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+                    <FileNamePattern>src/log/${sessionId}_%d{yyyy-MM-dd}.log</FileNamePattern>
+                    <maxHistory>30</maxHistory>
+                    <totalSizeCap>500MB</totalSizeCap>
+                </rollingPolicy>
+                <append>false</append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%d{HH:mm:ss} %-5level %logger{35} - %msg %n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <appender name="fullLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>src/log/fullLog.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <FileNamePattern>src/log/fullLog_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%mdc %d{HH:mm:ss} %-5level [%thread] %logger{35} - %msg %n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%mdc %d{HH:mm:ss} %-5level [%thread] %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.stroganova.onlineshop" level="INFO">
+        <appender-ref ref="SIFT" />
+    </logger>
+
+
+
+    <root level="DEBUG">
+        <appender-ref ref="fullLog" />
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>

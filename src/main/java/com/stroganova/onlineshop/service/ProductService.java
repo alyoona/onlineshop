@@ -9,7 +9,7 @@ public class ProductService {
 
     private ProductDao productDao;
 
-    public List<Product> getAll(){
+    public List<Product> getAll() {
         return productDao.getAll();
     }
 

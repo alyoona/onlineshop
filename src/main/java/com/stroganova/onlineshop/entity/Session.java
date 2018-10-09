@@ -43,4 +43,17 @@ public class Session {
     public void setExpireDate(LocalDateTime expireDate) {
         this.expireDate = expireDate;
     }
+
+    public boolean isExpiredSession() {
+        return expireDate == null;
+    }
+
+    @Override
+    public String toString() {
+        return "\nSession{" +
+                "sessionId=" + token +
+                ",\nuser=" + user +
+                ",\ncart=" + cart +
+                "}";
+    }
 }

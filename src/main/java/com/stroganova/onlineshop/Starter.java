@@ -15,8 +15,11 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.servlet.DispatcherType;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.Properties;
 
@@ -50,24 +53,15 @@ public class Starter {
 
         SecurityService securityService = new SecurityService();
         securityService.setUserService(userService);
-
-
-        //filters
-        SecurityFilter securityFilter = new SecurityFilter();
-        securityFilter.setSecurityService(securityService);
-
-        UserRoleFilter userRoleFilter = new UserRoleFilter();
+        securityService.setSessionDuration(Long.parseLong(properties.getProperty("sessionDurationSeconds")));
 
 
         //servlets
         ProductsServlet productsServlet = new ProductsServlet();
         productsServlet.setProductService(productService);
-        productsServlet.setSecurityService(securityService);
 
         AddProductServlet addProductServlet = new AddProductServlet();
         addProductServlet.setProductService(productService);
-        addProductServlet.setSecurityService(securityService);
-
 
         LoginServlet loginServlet = new LoginServlet();
         loginServlet.setSecurityService(securityService);
@@ -83,33 +77,36 @@ public class Starter {
 
         //server config
         ServletContextHandler servletContextHandler = new ServletContextHandler();
+        servletContextHandler.addServlet(new ServletHolder(new AssetsServlet()), "/assets/*");
         ServletHolder productsServletHolder = new ServletHolder(productsServlet);
         servletContextHandler.addServlet(productsServletHolder, "/");
         servletContextHandler.addServlet(productsServletHolder, "/products");
         servletContextHandler.addServlet(new ServletHolder(addProductServlet), "/products/add");
-
-        servletContextHandler.addServlet(new ServletHolder(new AssetsServlet()), "/assets/*");
-
-        servletContextHandler.addServlet(new ServletHolder(loginServlet), "/login");
-        servletContextHandler.addServlet(new ServletHolder(logoutServlet), "/logout");
-        servletContextHandler.addServlet(new ServletHolder(registerServlet), "/register");
         servletContextHandler.addServlet(new ServletHolder(cartServlet), "/cart");
+        servletContextHandler.addServlet(new ServletHolder(logoutServlet), "/logout");
+        servletContextHandler.addServlet(new ServletHolder(loginServlet), "/login");
+        servletContextHandler.addServlet(new ServletHolder(registerServlet), "/register");
 
+        //filters
+        SecurityFilter securityFilter = new SecurityFilter();
+        securityFilter.setSecurityService(securityService);
 
         //filter config
         FilterHolder filterHolderForSecurityFilter = new FilterHolder(securityFilter);
-        FilterHolder filterHolderForUserRoleFilter = new FilterHolder(userRoleFilter);
+        FilterHolder filterHolderForUserRoleFilter = new FilterHolder(new UserRoleFilter());
 
-        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/products/add",
+        //SecurityFilter mapping
+        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolderForUserRoleFilter, "/products/add",
-                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-
-        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/products",
+        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/products/*",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
         servletContextHandler.addFilter(filterHolderForSecurityFilter, "/cart",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/",
+        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/logout",
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
+
+        //UserRoleFilter mapping
+        servletContextHandler.addFilter(filterHolderForUserRoleFilter, "/products/add",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //start

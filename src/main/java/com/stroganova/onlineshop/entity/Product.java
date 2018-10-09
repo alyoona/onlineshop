@@ -60,4 +60,11 @@ public class Product {
         return picturePath != null ? picturePath.equals(product.picturePath) : product.picturePath == null;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name +
+                "}";
+    }
 }
