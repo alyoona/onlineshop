@@ -110,7 +110,8 @@ public class Starter {
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //start
-        Server server = new Server(8080);
+        int port = Integer.parseInt(System.getProperty("port", "8080"));
+        Server server = new Server(port);
         server.setHandler(servletContextHandler);
 
         server.start();
