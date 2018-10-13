@@ -1,6 +1,6 @@
-<configuration scan="true">
+<configuration>
 
-    <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+    <appender name="siftLogBySessionId" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>sessionId</key>
             <defaultValue>application</defaultValue>
@@ -36,22 +36,50 @@
         </encoder>
     </appender>
 
-    <appender name="STDOUT"
-              class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%mdc %d{HH:mm:ss} %-5level [%thread] %logger{35} - %msg %n</pattern>
         </encoder>
     </appender>
 
+    <!--
+    <appender name="db" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+            <driverClass>org.postgresql.Driver</driverClass>
+            <url>
+                jdbc:postgresql://ec2-54-247-101-191.eu-west-1.compute.amazonaws.com/d48h224305oo34?sslmode=require
+            </url>
+            <user>tebojfeftnsotw</user>
+            <password>75e1b894a40607e7da4ca25e23e598aaeb467985643e1d87abdb52a01274ff05</password>
+        </connectionSource>
+    </appender>
+    -->
+
+    <appender name="dataBaseLog" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+            <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+                <driverClass>org.postgresql.Driver</driverClass>
+                <jdbcUrl>
+                    jdbc:postgresql://ec2-54-247-101-191.eu-west-1.compute.amazonaws.com:5432/d48h224305oo34?sslmode=require
+                </jdbcUrl>
+                <user>tebojfeftnsotw</user>
+                <password>75e1b894a40607e7da4ca25e23e598aaeb467985643e1d87abdb52a01274ff05</password>
+               <!--
+                <initialConnections>10</initialConnections>
+                <maxConnections>15</maxConnections>
+                -->
+            </dataSource>
+        </connectionSource>
+    </appender>
+
     <logger name="com.stroganova.onlineshop" level="INFO">
-        <appender-ref ref="SIFT" />
+        <appender-ref ref="siftLogBySessionId"/>
     </logger>
 
-
-
-    <root level="DEBUG">
-        <appender-ref ref="fullLog" />
-        <appender-ref ref="STDOUT" />
+    <root level="INFO">
+        <appender-ref ref="fullLog"/>
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="dataBaseLog"/>
     </root>
 
 </configuration>
