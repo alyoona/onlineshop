@@ -17,14 +17,9 @@
         </encoder>
     </appender>
 
-    <logger name="com.stroganova.onlineshop" level="INFO">
-        <appender-ref ref="consoleLog"/>
-
-    </logger>
-
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="fullLog"/>
-
+        <appender-ref ref="consoleLog"/>
 
     </root>
 </configuration>
