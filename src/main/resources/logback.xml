@@ -1,33 +1,8 @@
-<configuration>
-
-    <appender name="siftLogBySessionId" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator>
-            <key>sessionId</key>
-            <defaultValue>application</defaultValue>
-        </discriminator>
-        <sift>
-            <timestamp key="bySecond" datePattern="yyyyMMddHHmmss"/>
-            <appender name="FILE-${bySecond}_${sessionId}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-                <file>src/log/${bySecond}_${sessionId}.log</file>
-                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-
-                    <FileNamePattern>src/log/${sessionId}_%d{yyyy-MM-dd}.log</FileNamePattern>
-                    <maxHistory>30</maxHistory>
-                    <totalSizeCap>500MB</totalSizeCap>
-                </rollingPolicy>
-                <append>false</append>
-                <layout class="ch.qos.logback.classic.PatternLayout">
-                    <pattern>%d{HH:mm:ss} %-5level %logger{35} - %msg %n</pattern>
-                </layout>
-            </appender>
-        </sift>
-    </appender>
-
+<configuration scan="true" scanPeriod="3 seconds">
     <appender name="fullLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>src/log/fullLog.log</file>
+        <file>logs/fullLog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-
-            <FileNamePattern>src/log/fullLog_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>logs/fullLog_%d{yyyy-MM-dd}.log</FileNamePattern>
             <maxHistory>30</maxHistory>
             <totalSizeCap>500MB</totalSizeCap>
         </rollingPolicy>
@@ -42,44 +17,14 @@
         </encoder>
     </appender>
 
-    <!--
-    <appender name="db" class="ch.qos.logback.classic.db.DBAppender">
-        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-            <driverClass>org.postgresql.Driver</driverClass>
-            <url>
-                jdbc:postgresql://ec2-54-247-101-191.eu-west-1.compute.amazonaws.com/d48h224305oo34?sslmode=require
-            </url>
-            <user>tebojfeftnsotw</user>
-            <password>75e1b894a40607e7da4ca25e23e598aaeb467985643e1d87abdb52a01274ff05</password>
-        </connectionSource>
-    </appender>
-    -->
-
-    <appender name="dataBaseLog" class="ch.qos.logback.classic.db.DBAppender">
-        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
-            <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
-                <driverClass>org.postgresql.Driver</driverClass>
-                <jdbcUrl>
-                    jdbc:postgresql://ec2-54-247-101-191.eu-west-1.compute.amazonaws.com:5432/d48h224305oo34?sslmode=require
-                </jdbcUrl>
-                <user>tebojfeftnsotw</user>
-                <password>75e1b894a40607e7da4ca25e23e598aaeb467985643e1d87abdb52a01274ff05</password>
-               <!--
-                <initialConnections>10</initialConnections>
-                <maxConnections>15</maxConnections>
-                -->
-            </dataSource>
-        </connectionSource>
-    </appender>
-
     <logger name="com.stroganova.onlineshop" level="INFO">
-        <appender-ref ref="siftLogBySessionId"/>
+        <appender-ref ref="consoleLog"/>
+
     </logger>
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="fullLog"/>
-        <appender-ref ref="consoleLog"/>
-        <appender-ref ref="dataBaseLog"/>
-    </root>
 
+
+    </root>
 </configuration>

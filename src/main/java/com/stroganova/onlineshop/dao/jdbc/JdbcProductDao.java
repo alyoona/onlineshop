@@ -24,11 +24,11 @@ public class JdbcProductDao implements ProductDao {
     private DataSource dataSource;
 
     private final static ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public List<Product> getAll() {
-        LOGGER.info("Start of getting list of all products");
+        logger.info("Start of getting list of all products");
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(GET_ALL_PRODUCTS_SQL)) {
@@ -37,18 +37,18 @@ public class JdbcProductDao implements ProductDao {
                 Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
                 productList.add(product);
             }
-            LOGGER.info("End of getting list of all products");
-            LOGGER.trace("The resulting products {}", productList);
+            logger.info("End of getting list of all products");
+            logger.trace("The resulting products {}", productList);
             return productList;
         } catch (SQLException e) {
-            LOGGER.error("Something wrong while getting all products", e);
+            logger.error("Something wrong while getting all products", e);
             throw new RuntimeException("Error while getting all products", e);
         }
     }
 
     @Override
     public void add(Product product) {
-        LOGGER.info("Start of adding a product to DB.");
+        logger.info("Start of adding a product to DB.");
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_PRODUCT_SQL)) {
 
@@ -58,29 +58,29 @@ public class JdbcProductDao implements ProductDao {
             statement.setString(4, product.getPicturePath());
 
             statement.executeUpdate();
-            LOGGER.info("The product {} has been added.", product);
+            logger.info("The product {} has been added.", product);
         } catch (SQLException e) {
-            LOGGER.error("Error while adding product.", e);
+            logger.error("Error while adding product.", e);
             throw new RuntimeException("Error while adding product.", e);
         }
     }
 
     @Override
     public Product getProduct(long id) {
-        LOGGER.info("Start of getting a product by id.");
+        logger.info("Start of getting a product by id.");
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_PRODUCT_BY_ID_SQL)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
-                    LOGGER.info("The {} has been got.", product);
+                    logger.info("The {} has been got.", product);
                     return product;
                 }
                 return null;
             }
         } catch (SQLException e) {
-            LOGGER.error("Error while getting product by id", e);
+            logger.error("Error while getting product by id", e);
             throw new RuntimeException("Error while getting product by id", e);
         }
     }

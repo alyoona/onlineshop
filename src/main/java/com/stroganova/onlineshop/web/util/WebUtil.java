@@ -8,23 +8,24 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 public class WebUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebUtil.class);
 
-    public static String getToken(HttpServletRequest request) {
+    public static Optional<String> getToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if("user-token".equals(cookie.getName())) {
                     LOGGER.info("User-token cookie has been received.");
-                    return cookie.getValue();
+                    return Optional.of(cookie.getValue());
                 }
             }
         }
         LOGGER.warn("There is no user-token cookie.");
-        return null;
+        return Optional.empty();
     }
 
     public static Cookie getSessionCookie(Session session) {

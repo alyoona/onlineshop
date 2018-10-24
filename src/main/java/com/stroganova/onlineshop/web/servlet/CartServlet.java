@@ -18,11 +18,11 @@ import java.util.Map;
 public class CartServlet extends HttpServlet {
 
     private ProductService productService;
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the GET request by CartServlet");
+        logger.info("Start of processing the GET request by CartServlet");
         Map<String, Object> pageVariables = new HashMap<>();
 
         Session session = (Session) request.getAttribute("session");
@@ -34,18 +34,18 @@ public class CartServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(page);
-        LOGGER.info("User's cart should be displayed, {}", session);
+        logger.info("User's cart should be displayed, {}", session);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the POST request by CartServlet");
+        logger.info("Start of processing the POST request by CartServlet");
         long id = Long.parseLong(request.getParameter("id"));
         Product product = productService.getProduct(id);
         Session session = (Session) request.getAttribute("session");
         session.addToCart(product);
         response.sendRedirect("/products");
-        LOGGER.info("All products should be displayed after adding the product to cart.");
+        logger.info("All products should be displayed after adding the product to cart.");
     }
 
     public void setProductService(ProductService productService) {

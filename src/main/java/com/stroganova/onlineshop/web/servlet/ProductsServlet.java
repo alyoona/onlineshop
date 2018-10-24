@@ -17,11 +17,11 @@ import java.util.Map;
 public class ProductsServlet extends HttpServlet {
 
     private ProductService productService;
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the GET request by ProductsServlet");
+        logger.info("Start of processing the GET request by ProductsServlet");
         Map<String, Object> pageVariables = new HashMap<>();
 
         Session session = (Session) request.getAttribute("session");
@@ -35,7 +35,7 @@ public class ProductsServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(page);
-        LOGGER.info("All products should be displayed.");
+        logger.info("All products should be displayed.");
     }
 
     public void setProductService(ProductService productService) {

@@ -11,15 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 public class RegisterServlet extends HttpServlet {
 
     private SecurityService securityService;
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the GET request by RegisterServlet");
+        logger.info("Start of processing the GET request by RegisterServlet");
         PageGenerator pageGenerator = PageGenerator.instance();
 
         String page = pageGenerator.getPage("register.html");
@@ -27,24 +28,23 @@ public class RegisterServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(page);
-        LOGGER.info("Register form should be displayed.");
+        logger.info("Register form should be displayed.");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the POST request by RegisterServlet");
+        logger.info("Start of processing the POST request by RegisterServlet");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        String role = "user";
 
-        Session session = securityService.register(login, password, role);
+        Optional<Session> session = securityService.register(login, password);
 
-        if (session != null) {
-            LOGGER.info("User has been registered successfully and redirected to main page.");
-            response.addCookie(WebUtil.getSessionCookie(session));
+        if (session.isPresent()) {
+            logger.info("User has been registered successfully and redirected to main page.");
+            response.addCookie(WebUtil.getSessionCookie(session.get()));
             response.sendRedirect("/");
         } else {
-            LOGGER.warn("User has not been registered, register form should be displayed again.");
+            logger.warn("User has not been registered, register form should be displayed again.");
             response.sendRedirect("/register");
         }
     }

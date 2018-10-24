@@ -10,7 +10,7 @@ public class Session {
     private String token;
     private User user;
     private LocalDateTime expireDate;
-    private List<Product> cart = Collections.synchronizedList(new ArrayList<>());
+    private List<Product> cart = new ArrayList<>();
 
     public String getToken() {
         return token;
@@ -48,8 +48,7 @@ public class Session {
     public String toString() {
         return "\nSession{" +
                 "sessionId=" + token +
-                ",\nuser=" + user +
-                ",\ncart=" + cart +
+                ",\nuser=" + user.getLogin() +
                 "}";
     }
 }

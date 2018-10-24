@@ -45,7 +45,7 @@ public class SecurityFilterTest {
         when(request.getCookies()).thenReturn(cookies);
 
         SecurityService mockSecurityService = mock(SecurityService.class);
-        when(mockSecurityService.getSession("123456789")).thenReturn(new Session());
+        when(mockSecurityService.getSession("123456789")).thenReturn(java.util.Optional.of(new Session()));
 
         SecurityFilter securityFilter = new SecurityFilter();
         securityFilter.setSecurityService(mockSecurityService);

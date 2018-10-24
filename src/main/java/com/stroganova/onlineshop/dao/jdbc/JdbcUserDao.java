@@ -36,32 +36,32 @@ public class JdbcUserDao implements UserDao {
     private DataSource dataSource;
 
     private final static UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public User getUser(String username) {
-        LOGGER.info("Start of getting a user by username.");
+        logger.info("Start of getting a user by username.");
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_LOGIN)
         ) {
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                LOGGER.info("The user by username have been got.");
+                logger.info("The user by username have been got.");
                 return USER_ROW_MAPPER.mapRow(resultSet);
             } else {
-                LOGGER.warn("The user hasn't been found by username.");
+                logger.warn("The user hasn't been found by username.");
                 return null;
             }
         } catch (SQLException e) {
-            LOGGER.error("Error while finding user");
+            logger.error("Error while finding user");
             throw new RuntimeException("Error while finding user", e);
         }
     }
 
     @Override
     public void add(User user) {
-        LOGGER.info("Start of adding a user to DB.");
+        logger.info("Start of adding a user to DB.");
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL);
              PreparedStatement preparedStatementSetUserRole = connection.prepareStatement(INSERT_USER_ROLE_SQL)
@@ -70,19 +70,19 @@ public class JdbcUserDao implements UserDao {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getSalt());
             preparedStatement.executeUpdate();
-            LOGGER.info("The user \"{}\" has been added.", user.getLogin());
+            logger.info("The user \"{}\" has been added.", user.getLogin());
             preparedStatementSetUserRole.setString(1, user.getLogin());
             preparedStatementSetUserRole.setString(2, user.getRole());
             preparedStatementSetUserRole.executeUpdate();
-            LOGGER.info("The user's role has been set to \"{}\".", user.getRole());
+            logger.info("The user's role has been set to \"{}\".", user.getRole());
         } catch (SQLException sqlException) {
             PSQLException psqlException = (PSQLException) sqlException;
             ServerErrorMessage serverErrorMessage = psqlException.getServerErrorMessage();
             if (serverErrorMessage.getConstraint().contains("login")) {
-                LOGGER.error("User's login should be unique.", sqlException);
+                logger.error("User's login should be unique.", sqlException);
                 throw new NoUniqueUserNameException(serverErrorMessage.getMessage() + " | " + serverErrorMessage.getDetail(), sqlException);
             } else {
-                LOGGER.error("Error while user registration.", sqlException);
+                logger.error("Error while user registration.", sqlException);
                 throw new RuntimeException("error while user registration: " + serverErrorMessage.getMessage() + " | " + serverErrorMessage.getDetail(), sqlException);
             }
         }

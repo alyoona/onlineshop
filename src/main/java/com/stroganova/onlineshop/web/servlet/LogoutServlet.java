@@ -14,15 +14,15 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
 
     private SecurityService securityService;
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the POST request by LogoutServlet");
+        logger.info("Start of processing the POST request by LogoutServlet");
         Session session = (Session) request.getAttribute("session");
         securityService.logout(session);
         response.sendRedirect("/login");
-        LOGGER.info("User has been logged out.");
+        logger.info("User has been logged out.");
     }
 
     public void setSecurityService(SecurityService securityService) {

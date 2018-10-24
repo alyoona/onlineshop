@@ -5,7 +5,7 @@ public class User {
     private String login;
     private String password;
     private String salt;
-    private String role;
+    private UserRole role;
 
     public String getLogin() {
         return login;
@@ -32,18 +32,19 @@ public class User {
     }
 
     public void setRole(String role) {
-        this.role = role;
+
+        this.role = UserRole.getByName(role);
     }
 
     public String getRole() {
-        return role;
+        return role.getName();
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "login='" + login + '\'' +
-                ", role='" + role + '\'' +
+                ", role='" + role.getName() + '\'' +
                 '}';
     }
 }

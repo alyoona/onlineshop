@@ -2,6 +2,7 @@ package com.stroganova.onlineshop.service;
 
 import com.stroganova.onlineshop.entity.Session;
 import com.stroganova.onlineshop.entity.User;
+import com.stroganova.onlineshop.entity.UserRole;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +14,12 @@ public class SecurityService {
 
     private UserService userService;
     private List<Session> sessionsList = Collections.synchronizedList(new ArrayList<>());
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private long sessionDuration;
 
 
-    public Session register(String username, String password, String role) {
-        LOGGER.info("Starting of user registration.");
+    public Optional<Session> register(String username, String password) {
+        logger.info("Starting of user registration.");
         String salt = UUID.randomUUID().toString();
         String hashedPassword = DigestUtils.md5Hex(password + salt);
 
@@ -26,84 +27,72 @@ public class SecurityService {
         user.setLogin(username);
         user.setPassword(hashedPassword);
         user.setSalt(salt);
-        user.setRole(role);
+        user.setRole(UserRole.USER.getName());
         userService.add(user);
         return getSessionForUser(user);
     }
 
-    private Session getSessionForUser(User user) {
-        LOGGER.info("Start of getting the session for user.");
-        if (user != null) {
-            Session session = new Session();
-            String uuid = UUID.randomUUID().toString();
-            session.setToken(uuid);
-            session.setUser(user);
-            session.setExpireDate(LocalDateTime.now().plusSeconds(sessionDuration));
-            sessionsList.add(session);
-            LOGGER.info("The user session has been started: {}", session);
-            return session;
-        }
-        return null;
+    private Optional<Session> getSessionForUser(User user) {
+        logger.info("Start of getting the session for user.");
+        Session session = new Session();
+        String uuid = UUID.randomUUID().toString();
+        session.setToken(uuid);
+        session.setUser(user);
+        session.setExpireDate(LocalDateTime.now().plusSeconds(sessionDuration));
+        sessionsList.add(session);
+        logger.info("The user session has been started: {}", session);
+        return Optional.of(session);
     }
 
-    public Session login(String userName, String password) {
-        LOGGER.info("Starting of user authorization.");
-        User user = auth(userName, password);
-        if (user != null) {
-            return getSessionForUser(user);
-        }
-        return null;
-    }
-
-    private User auth(String userName, String password) {
-        LOGGER.info("Starting of user authentication.");
+    public Optional<Session> login(String userName, String password) {
+        logger.info("Starting of user authorization.");
         User user = userService.getUser(userName);
         if (user != null) {
             String userHashedPassword = user.getPassword();
             String salt = user.getSalt();
             String incomingHashedPassword = DigestUtils.md5Hex(password + salt);
             if (userHashedPassword.equals(incomingHashedPassword)) {
-                LOGGER.info("User has been authenticated successfully.");
-                return user;
+                logger.info("User has been authorized successfully.");
+                return getSessionForUser(user);
             } else {
-                LOGGER.warn("User hasn't been authenticated.");
-                return null;
+                logger.warn("User hasn't been authorized.");
+                return Optional.empty();
             }
         }
-        LOGGER.warn("User hasn't been authenticated.");
-        return null;
+        logger.warn("User hasn't been authenticated.");
+        return Optional.empty();
     }
 
     public void logout(Session currentSession) {
-        LOGGER.info("Starting of logout.");
+        logger.info("Starting of logout.");
         Iterator<Session> sessionIterator = sessionsList.iterator();
         while (sessionIterator.hasNext()) {
             Session nextSession = sessionIterator.next();
             String token = nextSession.getToken();
             if (token.equals(currentSession.getToken())) {
                 sessionIterator.remove();
-                LOGGER.info("Session has been finished.");
+                logger.info("Session has been finished.");
                 break;
             }
         }
     }
 
-    public Session getSession(String token) {
-        LOGGER.info("Start of getting the session.");
+    public Optional<Session> getSession(String token) {
+        logger.info("Start of getting the session for token: {}.", token);
         Iterator<Session> sessionIterator = sessionsList.iterator();
         while (sessionIterator.hasNext()) {
             Session session = sessionIterator.next();
             if (token.equals(session.getToken())) {
                 if (LocalDateTime.now().isAfter(session.getExpireDate())) {
                     sessionIterator.remove();
-                    LOGGER.warn("Session has been expired.");
-                    return null;
+                    logger.warn("Session has been expired.");
+                    return Optional.empty();
                 }
-                LOGGER.info("Session is valid.");
-                return session;
+                logger.info("Session is valid.");
+                return Optional.of(session);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public void setUserService(UserService userService) {

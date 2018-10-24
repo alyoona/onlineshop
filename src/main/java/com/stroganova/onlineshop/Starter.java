@@ -5,8 +5,8 @@ import com.stroganova.onlineshop.dao.jdbc.JdbcUserDao;
 import com.stroganova.onlineshop.service.ProductService;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.UserService;
+import com.stroganova.onlineshop.web.filter.AdminRoleFilter;
 import com.stroganova.onlineshop.web.filter.SecurityFilter;
-import com.stroganova.onlineshop.web.filter.UserRoleFilter;
 import com.stroganova.onlineshop.web.servlet.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -89,21 +89,21 @@ public class Starter {
         securityFilter.setSecurityService(securityService);
 
         //filter config
-        FilterHolder filterHolderForSecurityFilter = new FilterHolder(securityFilter);
-        FilterHolder filterHolderForUserRoleFilter = new FilterHolder(new UserRoleFilter());
+        FilterHolder userRoleFilterHolder = new FilterHolder(securityFilter);
+        FilterHolder adminRoleFilterHolder = new FilterHolder(new AdminRoleFilter());
 
         //SecurityFilter mapping
-        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/",
+        servletContextHandler.addFilter(userRoleFilterHolder, "/",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/products/*",
+        servletContextHandler.addFilter(userRoleFilterHolder, "/products/*",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/cart",
+        servletContextHandler.addFilter(userRoleFilterHolder, "/cart",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
-        servletContextHandler.addFilter(filterHolderForSecurityFilter, "/logout",
+        servletContextHandler.addFilter(userRoleFilterHolder, "/logout",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
-        //UserRoleFilter mapping
-        servletContextHandler.addFilter(filterHolderForUserRoleFilter, "/products/add",
+        //AdminRoleFilter mapping
+        servletContextHandler.addFilter(adminRoleFilterHolder, "/products/add",
                 EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //start

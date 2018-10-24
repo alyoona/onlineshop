@@ -18,23 +18,23 @@ import java.util.Map;
 public class AddProductServlet extends HttpServlet {
 
     private ProductService productService;
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the GET request by AddProductServlet");
+        logger.info("Start of processing the GET request by AddProductServlet");
         Map<String, Object> pageVariables = new HashMap<>();
         Session session = (Session) request.getAttribute("session");
         pageVariables.put("session", session);
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().println(PageGenerator.instance().getPage("add.html", pageVariables));
-        LOGGER.info("End of processing the GET request by AddProductServlet");
+        logger.info("End of processing the GET request by AddProductServlet");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOGGER.info("Start of processing the POST request by AddProductServlet");
+        logger.info("Start of processing the POST request by AddProductServlet");
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
         String picturePath = request.getParameter("picturePath");
@@ -51,7 +51,7 @@ public class AddProductServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("text/html;charset=utf-8");
         response.sendRedirect("/products/add");
-        LOGGER.info("End of processing the POST request by AddProductServlet");
+        logger.info("End of processing the POST request by AddProductServlet");
     }
 
     public void setProductService(ProductService productService) {

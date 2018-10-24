@@ -19,7 +19,7 @@ public class UserRowMapperTest {
         when(mockResultSet.getString("login")).thenReturn("testUserName");
         when(mockResultSet.getString("password")).thenReturn("testUserPassword");
         when(mockResultSet.getString("salt")).thenReturn("testSalt");
-        when(mockResultSet.getString("role")).thenReturn("admin");
+        when(mockResultSet.getString("role")).thenReturn("adMin");
         //when
         UserRowMapper userRowMapper = new UserRowMapper();
         User actualUser = userRowMapper.mapRow(mockResultSet);
