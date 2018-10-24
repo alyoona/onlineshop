@@ -6,6 +6,7 @@ import com.stroganova.onlineshop.service.ProductService;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.UserService;
 import com.stroganova.onlineshop.web.filter.AdminRoleFilter;
+import com.stroganova.onlineshop.web.filter.RequestFilter;
 import com.stroganova.onlineshop.web.filter.SecurityFilter;
 import com.stroganova.onlineshop.web.servlet.*;
 import org.eclipse.jetty.server.Server;
@@ -91,6 +92,10 @@ public class Starter {
         //filter config
         FilterHolder userRoleFilterHolder = new FilterHolder(securityFilter);
         FilterHolder adminRoleFilterHolder = new FilterHolder(new AdminRoleFilter());
+
+        //RequestFilter mapping
+        servletContextHandler.addFilter(new FilterHolder(new RequestFilter()), "/*",
+                EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
         //SecurityFilter mapping
         servletContextHandler.addFilter(userRoleFilterHolder, "/",

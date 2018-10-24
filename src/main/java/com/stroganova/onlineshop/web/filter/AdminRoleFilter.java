@@ -26,6 +26,7 @@ public class AdminRoleFilter implements Filter {
         if (UserRole.ADMIN.getName().equalsIgnoreCase(role)) {
             logger.info("The user has the access to the resource.");
             filterChain.doFilter(servletRequest, servletResponse);
+            logger.info("doFilter of AdminRoleFilter is done.");
         } else {
             logger.info("User has been redirected to main page.");
             logger.warn("User's role \"{}\" doesn't provide access to {}", role, request.getRequestURI());

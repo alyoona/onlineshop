@@ -34,6 +34,8 @@ public class SecurityFilter implements Filter {
             if (session.isPresent()) {
                 isAuth = true;
                 request.setAttribute("session", session.get());
+                String userLogin = session.get().getUser().getLogin();
+                MDC.put("userLogin", userLogin == null ? "GUEST" : userLogin);
             }
         }
 
@@ -41,7 +43,9 @@ public class SecurityFilter implements Filter {
             try {
                 logger.info("Go to the next filter or servlet.");
                 filterChain.doFilter(servletRequest, servletResponse);
+                logger.info("doFilter of SecurityFilter is done.");
             } finally {
+                MDC.remove("userLogin");
                 MDC.remove("sessionId");
             }
         } else {
