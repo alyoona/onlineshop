@@ -1,11 +1,13 @@
 package com.stroganova.onlineshop.web.servlet;
 
 import com.stroganova.onlineshop.entity.Session;
+import com.stroganova.onlineshop.locator.ServiceLocator;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
 import com.stroganova.onlineshop.web.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,7 @@ import java.util.Optional;
 
 public class LoginServlet extends HttpServlet {
 
-    private SecurityService securityService;
+    private SecurityService securityService = ServiceLocator.getService(SecurityService.class);
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -49,8 +51,8 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(WebUtil.getSessionCookie(session.get()));
             response.sendRedirect("/");
         } else {
-           logger.warn("User has not been authorized, login form should be displayed again.");
-           response.sendRedirect("/login");
+            logger.warn("User has not been authorized, login form should be displayed again.");
+            response.sendRedirect("/login");
         }
     }
 

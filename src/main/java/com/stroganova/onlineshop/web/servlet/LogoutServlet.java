@@ -1,6 +1,7 @@
 package com.stroganova.onlineshop.web.servlet;
 
 import com.stroganova.onlineshop.entity.Session;
+import com.stroganova.onlineshop.locator.ServiceLocator;
 import com.stroganova.onlineshop.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,8 @@ import java.io.IOException;
 
 public class LogoutServlet extends HttpServlet {
 
-    private SecurityService securityService;
+    //private SecurityService securityService = (SecurityService) ServiceLocator.getService("securityService");
+    private SecurityService securityService = new SecurityService();
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override

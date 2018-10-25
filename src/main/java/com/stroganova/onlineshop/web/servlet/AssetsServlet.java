@@ -16,4 +16,6 @@ public class AssetsServlet extends HttpServlet {
         InputStream inputStream = this.getClass().getResourceAsStream(pathInfo);
         IOUtils.copy(inputStream, response.getOutputStream());
     }
+
+
 }

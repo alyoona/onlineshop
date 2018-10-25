@@ -1,6 +1,7 @@
 package com.stroganova.onlineshop.web.filter;
 
 import com.stroganova.onlineshop.entity.Session;
+import com.stroganova.onlineshop.locator.ServiceLocator;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.web.util.WebUtil;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class SecurityFilter implements Filter {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private SecurityService securityService;
+    private SecurityService securityService = ServiceLocator.getService(SecurityService.class);
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

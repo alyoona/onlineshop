@@ -7,6 +7,7 @@
     <groupId>com.stroganova</groupId>
     <artifactId>online-shop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <build>
         <plugins>
@@ -21,37 +22,37 @@
             </plugin>
 
             <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <executions>
-                    <execution>
-                        <id>default-jar</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <path>/</path>
+                </configuration>
             </plugin>
 
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.2</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>default-copy-resources</id>
+                        <phase>process-resources</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>copy-resources</goal>
                         </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/</outputDirectory>
+                            <!--outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/</outputDirectory-->
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.stroganova.onlineshop.Starter</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <appendAssemblyId>false</appendAssemblyId>
-                </configuration>
             </plugin>
 
         </plugins>
@@ -64,15 +65,12 @@
             <artifactId>freemarker</artifactId>
             <version>2.3.20</version>
         </dependency>
+        <!--ServletAPI -->
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.3.0.M0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>9.3.0.M0</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -97,12 +95,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
-        </dependency>
-        <!-- com.mchange.v2.c3p0.ComboPooledDataSource -->
-        <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.5.2</version>
         </dependency>
 
         <!--Tests-->

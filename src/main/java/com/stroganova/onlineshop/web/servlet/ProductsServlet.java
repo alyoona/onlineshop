@@ -1,6 +1,7 @@
 package com.stroganova.onlineshop.web.servlet;
 
 import com.stroganova.onlineshop.entity.Session;
+import com.stroganova.onlineshop.locator.ServiceLocator;
 import com.stroganova.onlineshop.service.ProductService;
 import com.stroganova.onlineshop.web.templater.PageGenerator;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class ProductsServlet extends HttpServlet {
 
-    private ProductService productService;
+    private ProductService productService = ServiceLocator.getService(ProductService.class);
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override

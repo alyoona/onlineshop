@@ -1,6 +1,6 @@
 <configuration scan="true" scanPeriod="3 seconds">
     <appender name="fullLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/fullLog.log</file>
+        <file>..\logs\onlineShopLogs.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>logs/fullLog_%d{yyyy-MM-dd}.log</FileNamePattern>
             <maxHistory>30</maxHistory>

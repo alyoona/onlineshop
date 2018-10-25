@@ -15,7 +15,6 @@ public class RequestFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-
         logger.info("RequestFilter is started.");
         MDC.put("requestId", UUID.randomUUID().toString());
         try {

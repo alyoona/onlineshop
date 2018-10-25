@@ -88,7 +88,7 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
-    public JdbcUserDao(DataSource dataSource) {
+    public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 }
