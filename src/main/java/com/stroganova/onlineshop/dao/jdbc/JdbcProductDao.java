@@ -21,7 +21,9 @@ public class JdbcProductDao implements ProductDao {
     private final static String GET_PRODUCT_BY_ID_SQL =
             "SELECT id, name, description, price, picturePath FROM onlineshopschema.products WHERE id = ?;";
 
+
     private DataSource dataSource;
+
 
     private final static ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -88,4 +90,6 @@ public class JdbcProductDao implements ProductDao {
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
+
 }

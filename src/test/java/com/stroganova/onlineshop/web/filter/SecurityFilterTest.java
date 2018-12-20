@@ -1,7 +1,6 @@
 package com.stroganova.onlineshop.web.filter;
 
 import com.stroganova.onlineshop.entity.Session;
-import com.stroganova.onlineshop.locator.ServiceLocator;
 import com.stroganova.onlineshop.service.SecurityService;
 import org.junit.Test;
 import javax.servlet.FilterChain;
@@ -13,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SecurityFilterTest {
+
 
     @Test
     public void testDoFilterIsNotAuth() throws Exception {
@@ -62,5 +62,6 @@ public class SecurityFilterTest {
         //then
        // verify(filterChain).doFilter(request,response);
     }
+
 
 }
