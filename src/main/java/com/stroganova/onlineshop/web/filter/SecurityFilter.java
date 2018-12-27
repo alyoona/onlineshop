@@ -6,6 +6,8 @@ import com.stroganova.onlineshop.web.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,14 @@ public class SecurityFilter implements Filter {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private SecurityService securityService;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        ApplicationContext ctx = WebApplicationContextUtils
+                .getRequiredWebApplicationContext(filterConfig.getServletContext());
+        this.securityService = ctx.getBean(SecurityService.class);
+    }
+
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -55,14 +65,11 @@ public class SecurityFilter implements Filter {
         }
     }
 
-    public void setSecurityService(SecurityService securityService) {
+/*    public void setSecurityService(SecurityService securityService) {
         this.securityService = securityService;
-    }
+    }*/
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
 
-    }
 
     @Override
     public void destroy() {

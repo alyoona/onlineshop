@@ -31,7 +31,7 @@ public class AdminRoleFilter implements Filter {
             logger.info("User has been redirected to main page.");
             logger.warn("User's role \"{}\" doesn't provide access to {}", role, request.getRequestURI());
             HttpServletResponse response = (HttpServletResponse) servletResponse;
-            response.sendRedirect("/");
+            response.sendRedirect("/products");
         }
     }
 

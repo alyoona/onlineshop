@@ -40,7 +40,9 @@ public class SecurityService {
         session.setUser(user);
         session.setExpireDate(LocalDateTime.now().plusSeconds(sessionDuration));
         sessionsList.add(session);
+
         logger.info("The user session has been started: {}", session);
+        logger.info("getSessionForUser: sessionsList size: {}", sessionsList.size());
         return Optional.of(session);
     }
 
@@ -79,6 +81,7 @@ public class SecurityService {
 
     public Optional<Session> getSession(String token) {
         logger.info("Start of getting the session for token: {}.", token);
+        logger.info("getSession by token, sessionsList size: {}", sessionsList.size());
         Iterator<Session> sessionIterator = sessionsList.iterator();
         while (sessionIterator.hasNext()) {
             Session session = sessionIterator.next();
