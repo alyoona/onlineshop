@@ -1,4 +1,4 @@
-package com.stroganova.onlineshop.controller;
+package com.stroganova.onlineshop.web.controller;
 
 import com.stroganova.onlineshop.entity.Product;
 import com.stroganova.onlineshop.entity.Session;
@@ -44,19 +44,17 @@ public class ProductController {
 
 
     @RequestMapping(path = "/products/add", method = RequestMethod.POST)
-    @ResponseBody
     public String addProduct(@RequestParam("name") String name,
                              @RequestParam("price") double price,
                              @RequestParam("picturePath") String picturePath,
-                             @RequestParam("description") String description,
-                             @RequestAttribute("session") Session session) {
+                             @RequestParam("description") String description) {
         Product newProduct = new Product();
         newProduct.setName(name);
         newProduct.setPrice(price);
         newProduct.setDescription(description);
         newProduct.setPicturePath(picturePath);
         productService.add(newProduct);
-        return openAddProductForm(session);
+        return "redirect:/products/add";
     }
 
 
@@ -73,11 +71,11 @@ public class ProductController {
 
 
     @RequestMapping(path = "/cart", method = RequestMethod.POST)
-    @ResponseBody
     public String addToCart(@RequestAttribute("session") Session session, @RequestParam(name = "id") long id) {
         Product product = productService.getProduct(id);
         session.addToCart(product);
-        return getAll(session);
+        return "redirect:/products";
     }
+
 
 }

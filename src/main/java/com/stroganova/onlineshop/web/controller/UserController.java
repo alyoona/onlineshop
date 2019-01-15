@@ -1,4 +1,4 @@
-package com.stroganova.onlineshop.controller;
+package com.stroganova.onlineshop.web.controller;
 
 
 import com.stroganova.onlineshop.entity.Session;
@@ -50,11 +50,11 @@ public class UserController {
         }
     }
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
-    public void doLogout(@RequestAttribute("session") Session session, HttpServletResponse response) throws IOException {
+    public String doLogout(@RequestAttribute("session") Session session) throws IOException {
         LOGGER.info("Start of processing the POST request by LogoutServlet");
         securityService.logout(session);
-        response.sendRedirect("/login");
         LOGGER.info("User has been logged out.");
+        return "redirect:/login";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
@@ -82,5 +82,7 @@ public class UserController {
             response.sendRedirect("/register");
         }
     }
+
+
 
 }
