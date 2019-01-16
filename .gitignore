@@ -1,9 +1,10 @@
+archive/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### IntelliJ IDEA ###
 .idea
-archive
+
 *.iws
 *.iml
 *.ipr
