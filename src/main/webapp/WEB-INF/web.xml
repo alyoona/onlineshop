@@ -4,7 +4,7 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
+    <!--root context-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
@@ -31,7 +31,6 @@
     </filter>
     <filter>
         <filter-name>securityFilter</filter-name>
-        <!--filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class-->
         <filter-class>com.stroganova.onlineshop.web.filter.SecurityFilter</filter-class>
     </filter>
     <filter>
@@ -57,7 +56,5 @@
         <filter-name>adminRoleFilter</filter-name>
         <url-pattern>/products/add</url-pattern>
     </filter-mapping>
-
-
 
 </web-app>

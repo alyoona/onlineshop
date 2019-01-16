@@ -3,15 +3,15 @@ package com.stroganova.onlineshop.web.controller;
 import com.stroganova.onlineshop.entity.Product;
 import com.stroganova.onlineshop.entity.Session;
 import com.stroganova.onlineshop.service.ProductService;
-import com.stroganova.onlineshop.web.templater.PageGenerator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class ProductController {
@@ -20,53 +20,39 @@ public class ProductController {
     private ProductService productService;
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    @RequestMapping(path = "/products", method = RequestMethod.GET)
-    @ResponseBody
-    public String getAll(@RequestAttribute("session") Session session) {
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("products", productService.getAll());
-        pageVariables.put("session", session);
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    public String getAll(@ModelAttribute("model") ModelMap model, @RequestAttribute("session") Session session) {
+        model.addAttribute("products", productService.getAll());
+        model.addAttribute("session", session);
+        LOGGER.info("Show all products");
+        return "products";
 
-        PageGenerator pageGenerator = PageGenerator.instance();
-        return pageGenerator.getPage("products.html", pageVariables);
     }
 
 
     @RequestMapping(path = "/products/add", method = RequestMethod.GET)
-    @ResponseBody
-    public String openAddProductForm(@RequestAttribute("session") Session session) {
-        LOGGER.info("Start of processing the GET request by AddProductServlet");
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("session", session);
-        LOGGER.info("End of processing the GET request by AddProductServlet");
-        return PageGenerator.instance().getPage("add.html", pageVariables);
+    public String openAddProductForm(@ModelAttribute("model") ModelMap model, @RequestAttribute("session") Session session) {
+        LOGGER.info("Open Add Product Form");
+        model.addAttribute("session", session);
+        return "add";
     }
 
 
     @RequestMapping(path = "/products/add", method = RequestMethod.POST)
-    public String addProduct(@RequestParam("name") String name,
-                             @RequestParam("price") double price,
-                             @RequestParam("picturePath") String picturePath,
-                             @RequestParam("description") String description) {
-        Product newProduct = new Product();
-        newProduct.setName(name);
-        newProduct.setPrice(price);
-        newProduct.setDescription(description);
-        newProduct.setPicturePath(picturePath);
-        productService.add(newProduct);
+    public String addProduct(@ModelAttribute("product") Product product) {
+        LOGGER.info("Added Product");
+        productService.add(product);
         return "redirect:/products/add";
     }
 
 
     @RequestMapping(path = "/cart", method = RequestMethod.GET)
-    @ResponseBody
-    public String openCart(@RequestAttribute("session") Session session) throws IOException {
-        Map<String, Object> pageVariables = new HashMap<>();
+    public String openCart(@ModelAttribute("model") ModelMap model, @RequestAttribute("session") Session session) throws IOException {
         if (session != null) {
-            pageVariables.put("cart", session.getCart());
+            model.addAttribute("cart", session.getCart());
         }
-        PageGenerator pageGenerator = PageGenerator.instance();
-        return pageGenerator.getPage("cart.html", pageVariables);
+        LOGGER.info("Show the cart");
+        return "cart";
     }
 
 
@@ -76,6 +62,4 @@ public class ProductController {
         session.addToCart(product);
         return "redirect:/products";
     }
-
-
 }

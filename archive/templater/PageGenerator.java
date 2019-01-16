@@ -39,6 +39,6 @@ public class PageGenerator {
 
     private PageGenerator() {
         cfg = new Configuration();
-        cfg.setTemplateLoader(new ClassTemplateLoader(this.getClass(), "/templates"));
+        cfg.setTemplateLoader(new ClassTemplateLoader(this.getClass(), "/archive/templates"));
     }
 }

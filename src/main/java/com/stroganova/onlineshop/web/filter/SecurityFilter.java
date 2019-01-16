@@ -65,12 +65,6 @@ public class SecurityFilter implements Filter {
         }
     }
 
-/*    public void setSecurityService(SecurityService securityService) {
-        this.securityService = securityService;
-    }*/
-
-
-
     @Override
     public void destroy() {
 

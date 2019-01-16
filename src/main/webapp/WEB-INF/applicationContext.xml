@@ -8,13 +8,8 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-
-
-
     <!--Loading Properties-->
     <context:property-placeholder location="classpath:application.properties" />
-
-
 
     <!--DB credentials-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -47,9 +42,4 @@
         <property name="sessionDuration" value="${sessionDurationSeconds}"/>
     </bean>
 
-    <!--Filters for  DelegatingFilterProxy
-    <bean id="securityFilter" class="com.stroganova.onlineshop.web.filter.SecurityFilter">
-        <property name="securityService" ref="securityService"/>
-    </bean>
-        -->
 </beans>

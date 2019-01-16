@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <!--fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!--my custom styles:-->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <title>Online-Shop</title>
+
+</head>
+<body>
+<header>
+    <div class="jumbotron jumbotron-fluid bg-custom">
+        <div class="container">
+            <h1 class="display-4">Online-Shop</h1>
+            <p class="lead">This is your favorite shop!</p>
+        </div>
+    </div>
+    <nav>
+        <ul class="nav nav-tabs nav-justified">
+            <li class="nav-item">
+                <a class="nav-link" href="/products">All Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/products/add">Add Product</a>
+            </li>
+
+            <#if model["session"]??>
+                <li class="nav-item">
+                        <div class="nav-link">
+                            <div class="d-flex justify-content-center mx-0">
+                                <a href="/cart" class="mx-3" title="Cart">
+                                    <i class="fas fa-shopping-cart text-custom"></i>
+                                </a>
+
+                                <form action="/logout" method="post" class="form-inline">
+                                    <div class="mb-1"></div>
+                                    <button class="btn btn-sm bg-transparent text-custom mb-0" title="Logout" data-toggle="tooltip"><i class="fas fa-sign-out-alt text-custom "></i></button>
+                                </form>
+                            </div>
+                        </div>
+                </li>
+                <#else>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login"><i class="fas fa-user text-custom"></i> Login/Register</a>
+                    </li>
+            </#if>
+        </ul>
+    </nav>
+</header>
+
+<section>
+    <div class="container my-5">
+        <form action="/products/add" method="POST">
+            <div class="form-group">
+                <label for="name" class="font-weight-light">Product name:</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Enter product name"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="price" class="font-weight-light">Product price:</label>
+                <div class="input-group">
+                    <input type="number" step="0.01" name="price" id="price" class="form-control"
+                           aria-label="Dollar amount (with dot and two decimal places)"
+                           placeholder="Enter product price">
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-custom">$</span>
+                        <span class="input-group-text bg-custom">0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="picturePath" class="font-weight-light">Product image:</label>
+                <div class="input-group mb-3 bg-custom">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-custom" id="productPicturePath">url</span>
+                    </div>
+                    <input type="text" name="picturePath" id="picturePath" class="form-control"
+                           placeholder="Enter product picture path"
+                           aria-label="product picture path" aria-describedby="productPicturePath">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="productDescription" class="font-weight-light">Product description:</label>
+                <textarea class="form-control" name="description" id="productDescription" rows="2"></textarea>
+            </div>
+
+            <button type="submit" class="btn bg-custom">Submit</button>
+        </form>
+    </div>
+
+</section>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+</body>
+</html>
