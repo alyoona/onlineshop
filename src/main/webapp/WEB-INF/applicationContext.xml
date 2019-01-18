@@ -19,13 +19,21 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
-    <!--Dao-->
-    <bean id="productDao" class="com.stroganova.onlineshop.dao.jdbc.JdbcProductDao">
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <!--Dao-->
+    <bean id="productDao" class="com.stroganova.onlineshop.dao.jdbc.JdbcProductDao">
+        <constructor-arg ref="namedJdbcTemplate"/>
+    </bean>
+
     <bean id="userDao" class="com.stroganova.onlineshop.dao.jdbc.JdbcUserDao">
-        <property name="dataSource" ref="dataSource"/>
+        <constructor-arg ref="namedJdbcTemplate"/>
     </bean>
 
     <!--Services-->

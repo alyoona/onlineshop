@@ -26,7 +26,7 @@ public class ProductRowMapperTest {
 
         //when
         ProductRowMapper productRowMapper = new ProductRowMapper();
-        Product actualProduct = productRowMapper.mapRow(mockResultSet);
+        Product actualProduct = productRowMapper.mapRow(mockResultSet,0);
 
         //then
         assertNotNull(actualProduct);

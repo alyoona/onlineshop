@@ -22,7 +22,7 @@ public class UserRowMapperTest {
         when(mockResultSet.getString("role")).thenReturn("adMin");
         //when
         UserRowMapper userRowMapper = new UserRowMapper();
-        User actualUser = userRowMapper.mapRow(mockResultSet);
+        User actualUser = userRowMapper.mapRow(mockResultSet, 0);
 
         //then
 
