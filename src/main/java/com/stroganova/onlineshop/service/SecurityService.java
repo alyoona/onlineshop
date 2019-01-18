@@ -6,17 +6,25 @@ import com.stroganova.onlineshop.entity.UserRole;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Service
 public class SecurityService {
 
     private UserService userService;
     private List<Session> sessionsList = Collections.synchronizedList(new ArrayList<>());
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Value(value = "${sessionDurationSeconds}")
     private long sessionDuration;
 
+    public SecurityService(UserService userService) {
+        this.userService = userService;
+    }
 
     public Optional<Session> register(String username, String password) {
         logger.info("Starting of user registration.");
@@ -96,14 +104,6 @@ public class SecurityService {
             }
         }
         return Optional.empty();
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setSessionDuration(long sessionDuration) {
-        this.sessionDuration = sessionDuration;
     }
 
 
