@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
           integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <!--fontawesome-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!--my custom styles:-->
     <link rel="stylesheet" href="/assets/css/custom.css">
@@ -34,26 +35,22 @@
                 <a class="nav-link active" href="/products/add">Add Product</a>
             </li>
 
-            <#if model["session"]??>
-                <li class="nav-item">
-                        <div class="nav-link">
-                            <div class="d-flex justify-content-center mx-0">
-                                <a href="/cart" class="mx-3" title="Cart">
-                                    <i class="fas fa-shopping-cart text-custom"></i>
-                                </a>
+            <li class="nav-item">
+                <div class="nav-link">
+                    <div class="d-flex justify-content-center mx-0">
+                        <a href="/cart" class="mx-3" title="Cart">
+                            <i class="fas fa-shopping-cart text-custom"></i>
+                        </a>
 
-                                <form action="/logout" method="post" class="form-inline">
-                                    <div class="mb-1"></div>
-                                    <button class="btn btn-sm bg-transparent text-custom mb-0" title="Logout" data-toggle="tooltip"><i class="fas fa-sign-out-alt text-custom "></i></button>
-                                </form>
-                            </div>
-                        </div>
-                </li>
-                <#else>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login"><i class="fas fa-user text-custom"></i> Login/Register</a>
-                    </li>
-            </#if>
+                        <form action="/logout" method="post" class="form-inline">
+                            <div class="mb-1"></div>
+                            <button class="btn btn-sm bg-transparent text-custom mb-0" title="Logout"
+                                    data-toggle="tooltip"><i class="fas fa-sign-out-alt text-custom "></i></button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+
         </ul>
     </nav>
 </header>
