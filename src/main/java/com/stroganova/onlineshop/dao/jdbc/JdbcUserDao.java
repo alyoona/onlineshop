@@ -5,34 +5,22 @@ import com.stroganova.onlineshop.dao.jdbc.mapper.UserRowMapper;
 import com.stroganova.onlineshop.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
 public class JdbcUserDao implements UserDao {
 
-    private final static String GET_USER_BY_LOGIN =
-            "SELECT u.login, u.password, u.salt, r.role " +
-                    "FROM onlineshopschema.users u " +
-                    "JOIN onlineshopschema.user_roles ur ON u.id = ur.user_id " +
-                    "JOIN onlineshopschema.roles r ON ur.role_id = r.id " +
-                    "WHERE login = :login;";
-
-    private final static String INSERT_USER_SQL =
-            "INSERT INTO onlineshopschema.users (login, password, salt) VALUES (:login, :password, :salt);";
-
-    private static final String INSERT_USER_ROLE_SQL =
-            "INSERT INTO onlineshopschema.user_roles(user_id, role_id) " +
-                    "SELECT u.id, r.id  FROM onlineshopschema.users u, onlineshopschema.roles r " +
-                    "WHERE u.login = :login AND r.role = :role;";
-
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-
     private final static UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
-
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private String getUserByLoginSQL;
+    private String insertUserSQL;
+    private String insertUserRoleSQL;
 
     public JdbcUserDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -44,10 +32,11 @@ public class JdbcUserDao implements UserDao {
         LOGGER.info("Start of getting a user by username.");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("login", login);
-        return namedParameterJdbcTemplate.queryForObject(GET_USER_BY_LOGIN, parameterSource, USER_ROW_MAPPER);
+        return namedParameterJdbcTemplate.queryForObject(getUserByLoginSQL, parameterSource, USER_ROW_MAPPER);
     }
 
     @Override
+    @Transactional
     public void add(User user) {
         LOGGER.info("Start of adding a user to DB.");
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -55,8 +44,26 @@ public class JdbcUserDao implements UserDao {
         parameterSource.addValue("password", user.getPassword());
         parameterSource.addValue("salt", user.getSalt());
         parameterSource.addValue("role", user.getRole());
-        namedParameterJdbcTemplate.update(INSERT_USER_SQL, parameterSource);
-        namedParameterJdbcTemplate.update(INSERT_USER_ROLE_SQL, parameterSource);
+        namedParameterJdbcTemplate.update(insertUserSQL, parameterSource);
+        LOGGER.info("First insert has been done");
+        namedParameterJdbcTemplate.update(insertUserRoleSQL, parameterSource);
+        LOGGER.info("Second insert has been done");
+    }
+
+
+    @Autowired
+    public void setGetUserByLoginSQL(String getUserByLoginSQL) {
+        this.getUserByLoginSQL = getUserByLoginSQL;
+    }
+
+    @Autowired
+    public void setInsertUserSQL(String insertUserSQL) {
+        this.insertUserSQL = insertUserSQL;
+    }
+
+    @Autowired
+    public void setInsertUserRoleSQL(String insertUserRoleSQL) {
+        this.insertUserRoleSQL = insertUserRoleSQL;
     }
 
 }

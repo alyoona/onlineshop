@@ -23,15 +23,13 @@ public class UserController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public String openLoginForm() {
+    public String loginPage() {
         LOGGER.info("Login form should be displayed.");
         return "login";
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public void doLogin(@RequestParam(name = "username") String username
-            , @RequestParam(name = "password") String password
-            , HttpServletResponse response) throws IOException {
+    public String login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
         LOGGER.info("Start of processing the POST request by LoginServlet");
 
         Optional<Session> session = securityService.login(username, password);
@@ -39,15 +37,15 @@ public class UserController {
         if (session.isPresent()) {
             LOGGER.info("User has been authorized successfully and redirected to main page.");
             response.addCookie(WebUtil.getSessionCookie(session.get()));
-            response.sendRedirect("/products");
+            return "redirect:/products";
         } else {
             LOGGER.warn("User has not been authorized, login form should be displayed again.");
-            response.sendRedirect("/login");
+            return "redirect:/login";
         }
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
-    public String doLogout(@RequestAttribute("session") Session session) throws IOException {
+    public String logout(@RequestAttribute("session") Session session) {
         LOGGER.info("Start of processing the POST request by LogoutServlet");
         securityService.logout(session);
         LOGGER.info("User has been logged out.");
@@ -55,24 +53,22 @@ public class UserController {
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
-    public String openRegisterForm() {
+    public String registerPage() {
         LOGGER.info("Register form should be displayed.");
         return "register";
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public void doRegister(@RequestParam(name = "login") String username
-            , @RequestParam(name = "password") String password
-            , HttpServletResponse response) throws IOException {
+    public String register(@RequestParam String login, @RequestParam String password, HttpServletResponse response) {
         LOGGER.info("Start of processing the POST request by RegisterServlet");
-        Optional<Session> session = securityService.register(username, password);
+        Optional<Session> session = securityService.register(login, password);
         if (session.isPresent()) {
             LOGGER.info("User has been registered successfully and redirected to main page.");
             response.addCookie(WebUtil.getSessionCookie(session.get()));
-            response.sendRedirect("/products");
+            return "redirect:/products";
         } else {
             LOGGER.warn("User has not been registered, register form should be displayed again.");
-            response.sendRedirect("/register");
+            return "redirect:/register";
         }
     }
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--Product Dao-->
+
+    <bean id="getAllProductsSQL" class="java.lang.String">
+        <constructor-arg value="SELECT id, name, description, price, picturePath FROM onlineshopschema.products;"/>
+    </bean>
+
+    <bean id="addProductSQL" class="java.lang.String">
+        <constructor-arg value="INSERT INTO onlineshopschema.products(name, description, price, picturePath) VALUES (:name, :description, :price, :picturePath);"/>
+    </bean>
+
+    <bean id="getProductByIdSQL" class="java.lang.String">
+        <constructor-arg value="SELECT id, name, description, price, picturePath FROM onlineshopschema.products WHERE id = :id;"/>
+    </bean>
+
+    <!--User Dao-->
+    <bean id="getUserByLoginSQL" class="java.lang.String">
+        <constructor-arg value="SELECT u.login, u.password, u.salt, r.role
+        FROM onlineshopschema.users u
+        JOIN onlineshopschema.user_roles ur ON u.id = ur.user_id
+        JOIN onlineshopschema.roles r ON ur.role_id = r.id
+        WHERE login = :login;"/>
+    </bean>
+
+    <bean id="insertUserSQL" class="java.lang.String">
+        <constructor-arg value="INSERT INTO onlineshopschema.users (login, password, salt) VALUES (:login, :password, :salt);"/>
+    </bean>
+
+    <bean id="insertUserRoleSQL" class="java.lang.String">
+        <constructor-arg value="INSERT INTO onlineshopschema.user_roles(user_id, role_id)
+        SELECT u.id, r.id  FROM onlineshopschema.users u, onlineshopschema.roles r
+        WHERE u.login = :login AND r.role = :role;"/>
+    </bean>
+</beans>

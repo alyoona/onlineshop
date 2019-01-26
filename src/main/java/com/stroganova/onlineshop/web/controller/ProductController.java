@@ -19,10 +19,11 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/products", method = RequestMethod.GET)
-    public String getAll(Model model) {
+    public String allProductsPage(Model model) {
         model.addAttribute("products", productService.getAll());
         LOGGER.info("Show all products");
         return "products";
@@ -30,14 +31,14 @@ public class ProductController {
 
 
     @RequestMapping(path = "/products/add", method = RequestMethod.GET)
-    public String openAddProductForm() {
+    public String addProductPage() {
         LOGGER.info("Open Add Product Form");
         return "add";
     }
 
 
     @RequestMapping(path = "/products/add", method = RequestMethod.POST)
-    public String addProduct(@ModelAttribute("product") Product product) {
+    public String addProduct(@ModelAttribute Product product) {
         LOGGER.info("Added Product");
         productService.add(product);
         return "redirect:/products/add";
@@ -45,7 +46,7 @@ public class ProductController {
 
 
     @RequestMapping(path = "/cart", method = RequestMethod.GET)
-    public String openCart(Model model, @RequestAttribute("session") Session session) throws IOException {
+    public String cartPage(Model model, @RequestAttribute Session session) {
         model.addAttribute("cart", session.getCart());
         LOGGER.info("Show the cart");
         return "cart";
@@ -53,8 +54,12 @@ public class ProductController {
 
 
     @RequestMapping(path = "/cart", method = RequestMethod.POST)
-    public String addToCart(@RequestAttribute("session") Session session, @ModelAttribute Product product) {
+    public String addToCart(@RequestAttribute Session session, @RequestParam long id) {
+
+        Product product = productService.getProduct(id);
+        LOGGER.info("Product added to cart, {}: ", product);
         session.addToCart(product);
+
         return "redirect:/products";
     }
 }

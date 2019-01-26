@@ -70,10 +70,6 @@
                         <div class="card-text d-flex justify-content-between">
                             <form action="/cart" method="post" class="form-inline" >
                                 <input type="text" name="id" th:value="*{product.id}" hidden>
-                                <input type="text" name="name" th:value="*{product.name}" hidden>
-                                <input type="number" name="price" th:value="*{product.price}" hidden>
-                                <input type="text" name="picturePath" th:value="*{product.picturePath}" hidden>
-                                <input type="text" name="description" th:value="*{product.description}" hidden>
                                 <button type="submit" class="btn btn-sm bg-transparent text-custom mb-0"
                                         title="Add to Cart"><i class="fas fa-cart-plus text-custom"></i></button>
                             </form>
