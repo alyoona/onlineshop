@@ -25,7 +25,7 @@
 
     <bean id="templateResolver"
           class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
-        <property name="prefix" value="/templates/" />
+        <property name="prefix" value="classpath:/templates/" />
         <property name="suffix" value=".html" />
     </bean>
 
