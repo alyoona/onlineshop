@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -13,7 +13,7 @@
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!--my custom styles:-->
-    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="/css/custom.css">
 
     <title>Online-Shop</title>
 
@@ -38,11 +38,11 @@
             <li class="nav-item">
                 <div class="nav-link">
                     <div class="d-flex justify-content-center mx-0">
-                        <a href="/cart" class="mx-3" title="Cart">
+                        <a th:href="@{/cart}" class="mx-3" title="Cart">
                             <i class="fas fa-shopping-cart text-custom"></i>
                         </a>
 
-                        <form action="/logout" method="post" class="form-inline">
+                        <form th:action="@{/logout}" method="post" class="form-inline">
                             <div class="mb-1"></div>
                             <button class="btn btn-sm bg-transparent text-custom mb-0" title="Logout"
                                     data-toggle="tooltip"><i class="fas fa-sign-out-alt text-custom "></i></button>
@@ -57,7 +57,7 @@
 
 <section>
     <div class="container my-5">
-        <form action="/products/add" method="POST">
+        <form th:action="@{/products/add}" method="POST">
             <div class="form-group">
                 <label for="name" class="font-weight-light">Product name:</label>
                 <input type="text" name="name" class="form-control" id="name" placeholder="Enter product name"

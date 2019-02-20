@@ -8,23 +8,24 @@ import javax.servlet.*;
 import java.io.IOException;
 import java.util.UUID;
 
-public class RequestFilter implements Filter {
+
+public class MDCRequestFilter implements Filter {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        logger.info("RequestFilter is started.");
+        logger.info("MDCRequestFilter is started.");
         MDC.put("requestId", UUID.randomUUID().toString());
         try {
             filterChain.doFilter(servletRequest, servletResponse);
-            logger.info("doFilter of RequestFilter is done.");
+            logger.info("doFilter of MDCRequestFilter is done.");
         } finally {
             MDC.remove("requestId");
             logger.info("MDCRequestId is removed.");
         }
-        logger.info("End of RequestFilter");
+        logger.info("End of MDCRequestFilter");
     }
 
     @Override

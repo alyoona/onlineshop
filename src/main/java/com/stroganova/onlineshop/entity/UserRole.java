@@ -3,7 +3,7 @@ package com.stroganova.onlineshop.entity;
 import com.stroganova.onlineshop.exception.IncorrectUserRoleException;
 
 public enum UserRole {
-    USER("user"), ADMIN("admin");
+    USER("ROLE_USER"), ADMIN("ROLE_ADMIN");
 
     private final String name;
 
@@ -25,7 +25,4 @@ public enum UserRole {
         return name;
     }
 
-    public static void main(String[] args) {
-        System.out.println(UserRole.USER);
-    }
 }

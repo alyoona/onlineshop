@@ -18,7 +18,6 @@ public class UserRowMapperTest {
         ResultSet mockResultSet = mock(ResultSet.class);
         when(mockResultSet.getString("login")).thenReturn("testUserName");
         when(mockResultSet.getString("password")).thenReturn("testUserPassword");
-        when(mockResultSet.getString("salt")).thenReturn("testSalt");
         when(mockResultSet.getString("role")).thenReturn("adMin");
         //when
         UserRowMapper userRowMapper = new UserRowMapper();
@@ -29,7 +28,6 @@ public class UserRowMapperTest {
         assertNotNull(actualUser);
         assertEquals("testUserName", actualUser.getLogin());
         assertEquals("testUserPassword", actualUser.getPassword());
-        assertEquals("testSalt", actualUser.getSalt());
         assertEquals("admin", actualUser.getRole());
         
     }

@@ -42,12 +42,14 @@ public class JdbcUserDao implements UserDao {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("login", user.getLogin());
         parameterSource.addValue("password", user.getPassword());
-        parameterSource.addValue("salt", user.getSalt());
         parameterSource.addValue("role", user.getRole());
+        System.out.println(parameterSource.getValue("role"));
         namedParameterJdbcTemplate.update(insertUserSQL, parameterSource);
         LOGGER.info("First insert has been done");
         namedParameterJdbcTemplate.update(insertUserRoleSQL, parameterSource);
+        System.out.println(parameterSource.getValue("role"));
         LOGGER.info("Second insert has been done");
+
     }
 
 

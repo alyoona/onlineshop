@@ -4,7 +4,6 @@ public class User {
 
     private String login;
     private String password;
-    private String salt;
     private UserRole role;
 
     public String getLogin() {
@@ -21,14 +20,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public String getSalt() {
-        return salt;
     }
 
     public void setRole(String role) {
