@@ -3,12 +3,15 @@ package com.stroganova.onlineshop.web.filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import java.io.IOException;
 import java.util.UUID;
 
-
+@Component
+@Order(value = Integer.MIN_VALUE)
 public class MDCRequestFilter implements Filter {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
