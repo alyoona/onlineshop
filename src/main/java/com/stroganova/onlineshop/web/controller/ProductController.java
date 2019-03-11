@@ -2,6 +2,7 @@ package com.stroganova.onlineshop.web.controller;
 
 import com.stroganova.onlineshop.entity.Product;
 import com.stroganova.onlineshop.service.ProductService;
+import com.stroganova.onlineshop.service.impl.ProductServiceDefault;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ public class ProductController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductServiceDefault productService) {
         this.productService = productService;
     }
 

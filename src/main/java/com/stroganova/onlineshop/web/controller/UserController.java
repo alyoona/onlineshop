@@ -1,6 +1,7 @@
 package com.stroganova.onlineshop.web.controller;
 
 import com.stroganova.onlineshop.service.SecurityService;
+import com.stroganova.onlineshop.service.impl.SecurityServiceDefault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,7 @@ public class UserController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    public UserController(SecurityService securityService) {
+    public UserController(SecurityServiceDefault securityService) {
         this.securityService = securityService;
     }
 

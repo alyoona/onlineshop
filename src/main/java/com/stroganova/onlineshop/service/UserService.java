@@ -1,28 +1,11 @@
 package com.stroganova.onlineshop.service;
 
-import com.stroganova.onlineshop.dao.UserDao;
+
 import com.stroganova.onlineshop.entity.User;
-import org.springframework.stereotype.Service;
 
+public interface UserService {
 
-@Service
-public class UserService {
+    User getUser(String username);
 
-    private UserDao userDao;
-
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    public User getUser(String username) {
-        return userDao.getUser(username);
-    }
-
-    public void add(User user) {
-        userDao.add(user);
-    }
-
-
+    void add(User user);
 }
-
-

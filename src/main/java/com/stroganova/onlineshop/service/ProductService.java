@@ -1,30 +1,14 @@
 package com.stroganova.onlineshop.service;
 
-import com.stroganova.onlineshop.dao.ProductDao;
 import com.stroganova.onlineshop.entity.Product;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class ProductService {
+public interface ProductService {
 
-    private ProductDao productDao;
+    List<Product> getAll();
 
-    public ProductService(ProductDao productDao) {
-        this.productDao = productDao;
-    }
+    void add(Product product);
 
-    public List<Product> getAll() {
-        return productDao.getAll();
-    }
-
-    public void add(Product product) {
-        productDao.add(product);
-    }
-
-    public Product getProduct(long id) {
-        return productDao.getProduct(id);
-    }
-
+    Product getProduct(long id);
 }

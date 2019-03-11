@@ -1,4 +1,4 @@
-package com.stroganova.onlineshop.service;
+package com.stroganova.onlineshop.service.impl;
 
 import com.stroganova.onlineshop.entity.User;
 import com.stroganova.onlineshop.entity.UserDetailsDefault;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceDefault implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserServiceDefault userService;
 
-    public UserDetailsServiceDefault(UserService userService) {
+    public UserDetailsServiceDefault(UserServiceDefault userService) {
         this.userService = userService;
     }
 

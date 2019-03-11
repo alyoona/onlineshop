@@ -3,6 +3,7 @@ package com.stroganova.onlineshop.web.controller;
 import com.stroganova.onlineshop.entity.Cart;
 import com.stroganova.onlineshop.entity.Product;
 import com.stroganova.onlineshop.service.ProductService;
+import com.stroganova.onlineshop.service.impl.ProductServiceDefault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class CartController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private ProductService productService;
 
-    public CartController(ProductService productService) {
+    public CartController(ProductServiceDefault productService) {
         this.productService = productService;
     }
 
