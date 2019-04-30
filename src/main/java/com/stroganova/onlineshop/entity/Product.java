@@ -1,9 +1,15 @@
 package com.stroganova.onlineshop.entity;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+
 public class Product {
     private long id;
+
+    @NotBlank(message = "Please enter a product name")
     private String name;
     private String description;
+    @DecimalMin(value = "0.01", message = "Please enter a product price, min value: 0.01")
     private double price;
     private String picturePath;
 

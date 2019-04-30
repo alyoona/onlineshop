@@ -22,6 +22,8 @@ public class JdbcProductDao implements ProductDao {
     private String getAllProductsSQL;
     private String addProductSQL;
     private String getProductByIdSQL;
+    private String deleteProductByIdSql;
+    private String updateProductSQL;
 
     public JdbcProductDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -51,6 +53,25 @@ public class JdbcProductDao implements ProductDao {
         return namedParameterJdbcTemplate.queryForObject(getProductByIdSQL, parameterSource, PRODUCT_ROW_MAPPER);
     }
 
+    @Override
+    public void delete(long id) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", id);
+        namedParameterJdbcTemplate.update(deleteProductByIdSql, parameterSource);
+    }
+
+    @Override
+    public void update(Product product) {
+        LOGGER.info("Start of updating a product inside DB");
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", product.getId());
+        parameterSource.addValue("name", product.getName());
+        parameterSource.addValue("description", product.getDescription());
+        parameterSource.addValue("price", product.getPrice());
+        parameterSource.addValue("picturePath", product.getPicturePath());
+        namedParameterJdbcTemplate.update(updateProductSQL, parameterSource);
+    }
+
 
     @Autowired
     public void setGetAllProductsSQL(String getAllProductsSQL) {
@@ -63,6 +84,14 @@ public class JdbcProductDao implements ProductDao {
     @Autowired
     public void setGetProductByIdSQL(String getProductByIdSQL) {
         this.getProductByIdSQL = getProductByIdSQL;
+    }
+    @Autowired
+    public void setDeleteProductByIdSql(String deleteProductByIdSql) {
+        this.deleteProductByIdSql = deleteProductByIdSql;
+    }
+    @Autowired
+    public void setUpdateProductSQL(String updateProductSQL) {
+        this.updateProductSQL = updateProductSQL;
     }
 
 }

@@ -18,6 +18,20 @@
         <constructor-arg value="SELECT id, name, description, price, picturePath FROM onlineshopschema.products WHERE id = :id;"/>
     </bean>
 
+    <bean id="deleteProductByIdSql" class="java.lang.String">
+        <constructor-arg value="DELETE FROM onlineshopschema.products WHERE id = :id;"/>
+    </bean>
+
+    <bean id="updateProductSQL" class="java.lang.String">
+        <constructor-arg value="UPDATE onlineshopschema.products
+                                SET name = :name,
+                                  description = :description,
+                                  price = :price,
+                                  picturePath = :picturePath
+                                WHERE id = :id;"/>
+    </bean>
+
+
     <!--User Dao-->
     <bean id="getUserByLoginSQL" class="java.lang.String">
         <constructor-arg value="SELECT u.login, u.password, r.role

@@ -30,4 +30,14 @@ public class ProductServiceDefault implements ProductService {
     public Product getProduct(long id) {
         return productDao.getProduct(id);
     }
+
+    @Override
+    public void delete(long id) {
+        productDao.delete(id);
+    }
+
+    @Override
+    public void update(Product product) {
+        productDao.update(product);
+    }
 }

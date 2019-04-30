@@ -1,3 +1,4 @@
+/*
 package com.stroganova.onlineshop.web.controller;
 
 import com.stroganova.onlineshop.service.SecurityService;
@@ -38,3 +39,4 @@ public class UserController {
     }
 
 }
+*/

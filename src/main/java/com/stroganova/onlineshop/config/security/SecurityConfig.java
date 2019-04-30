@@ -1,3 +1,4 @@
+/*
 package com.stroganova.onlineshop.config.security;
 
 import com.stroganova.onlineshop.service.impl.UserDetailsServiceDefault;
@@ -32,9 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
+*/
+/*        http
                 .authorizeRequests()
-                .antMatchers("/css/**").permitAll()
+                .antMatchers("/css*//*
+*/
+/**").permitAll()
                 .antMatchers("/products/add").hasRole("ADMIN")
                 .antMatchers("/register").permitAll()
                 .anyRequest().authenticated()
@@ -46,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/products")
-        ;
+        ;*//*
+
     }
 
     @Bean
@@ -58,3 +63,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 }
+*/
