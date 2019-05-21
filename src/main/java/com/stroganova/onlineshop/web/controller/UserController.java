@@ -1,10 +1,13 @@
-/*
 package com.stroganova.onlineshop.web.controller;
 
+import com.stroganova.onlineshop.entity.User;
+import com.stroganova.onlineshop.entity.UserRole;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.impl.SecurityServiceDefault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,24 +22,12 @@ public class UserController {
         this.securityService = securityService;
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public String loginPage() {
-        LOGGER.info("Login form should be displayed.");
-        return "login";
-    }
-
-    @RequestMapping(path = "/register", method = RequestMethod.GET)
-    public String registerPage() {
-        LOGGER.info("Register form should be displayed.");
-        return "register";
-    }
-
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public String register(@RequestParam String login, @RequestParam String password) {
+    public ResponseEntity<?> register(@RequestParam String username,  @RequestParam String password) {
         LOGGER.info("Start of processing the POST request by RegisterServlet");
-        securityService.register(login, password);
-        return "redirect:/products";
+
+        User user = securityService.register(username, password);
+        return new ResponseEntity<>(user.getRole(), HttpStatus.CREATED);
     }
 
 }
-*/

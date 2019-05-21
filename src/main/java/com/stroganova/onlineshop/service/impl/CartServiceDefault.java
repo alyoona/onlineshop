@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-//@SessionScope
+@SessionScope
 public class CartServiceDefault implements CartService {
 
     private List<Product> cart = Collections.synchronizedList(new ArrayList<>());

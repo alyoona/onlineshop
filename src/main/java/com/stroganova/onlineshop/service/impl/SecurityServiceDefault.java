@@ -1,4 +1,3 @@
-/*
 package com.stroganova.onlineshop.service.impl;
 
 import com.stroganova.onlineshop.entity.User;
@@ -26,7 +25,7 @@ public class SecurityServiceDefault implements SecurityService {
     }
 
     @Override
-    public void register(String username, String password) {
+    public User register(String username, String password) {
         logger.info("Starting of user registration.");
         User user = new User();
         user.setLogin(username);
@@ -34,6 +33,7 @@ public class SecurityServiceDefault implements SecurityService {
         user.setRole(UserRole.USER.getName());
         userService.add(user);
         autoLogin(user);
+        return user;
     }
 
     private void autoLogin(User user) {
@@ -43,8 +43,8 @@ public class SecurityServiceDefault implements SecurityService {
         SecurityContextHolder.getContext()
                 .setAuthentication(token);
         logger.debug("Auto login successfully: {}", user.getLogin());
+
     }
 
 
 }
-*/

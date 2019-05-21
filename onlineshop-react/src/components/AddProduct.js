@@ -79,7 +79,7 @@ class AddProduct extends Component {
 
                                 <div className="input-group-append">
                                     <span className="input-group-text bg-custom">$</span>
-                                    {/* <span className="input-group-text bg-custom">0.00</span> */}
+                                    
                                 </div>
                                 {
                                 errors.price && (

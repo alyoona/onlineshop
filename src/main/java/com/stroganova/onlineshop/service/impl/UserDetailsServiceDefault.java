@@ -1,4 +1,3 @@
-/*
 package com.stroganova.onlineshop.service.impl;
 
 import com.stroganova.onlineshop.entity.User;
@@ -26,4 +25,3 @@ public class UserDetailsServiceDefault implements UserDetailsService {
 
 
 
-*/

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 
 @RestController
-@CrossOrigin//(origins = "http://localhost:3000", allowCredentials = "true", maxAge = 6000)
 public class CartController {
 
     private CartService cartService;
@@ -33,20 +32,6 @@ public class CartController {
     public ResponseEntity<?> addToCart(@RequestBody Product product) {
         LOGGER.info("Product added to cart, {}, sessionID: {}", product.getId(), RequestContextHolder.currentRequestAttributes().getSessionId());
         cartService.addToCart(product);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.SET_COOKIE,"JSESSIONID="+RequestContextHolder.currentRequestAttributes().getSessionId());
-
-        return new ResponseEntity<>("Product added to cart, productId: " + product.getId(),headers, HttpStatus.OK);
+        return new ResponseEntity<>("Product added to cart, productId: " + product.getId(), HttpStatus.OK);
     }
-
-/*    private Cart getCart(HttpSession session) {
-        Cart cart = (Cart) session.getAttribute("cart");
-        if (cart != null) {
-            return cart;
-        } else {
-            session.setAttribute("cart", new Cart());
-            return (Cart) session.getAttribute("cart");
-        }
-    }*/
 }
