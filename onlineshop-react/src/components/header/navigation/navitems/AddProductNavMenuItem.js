@@ -1,16 +1,16 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 
 export default function AddProductNavMenuItem() {
-  
-  return (
+
+    return (
         <li className="nav-item">
-            <NavLink to="/products/add" 
-            className="nav-link" 
-            activeClassName="active"
-            
+            <NavLink to="/products/add"
+                     className="nav-link"
+                     activeClassName="active"
+
             >Add Product</NavLink>
         </li>
-  )
+    )
 }

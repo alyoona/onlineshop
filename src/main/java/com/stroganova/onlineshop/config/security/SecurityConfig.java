@@ -1,7 +1,6 @@
 
 package com.stroganova.onlineshop.config.security;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -18,11 +17,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.web.cors.CorsConfiguration;
-
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-
 
 
 @Configuration
@@ -46,26 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
-/*       http
-                .authorizeRequests()
-                .antMatchers("/css").permitAll()
-                .antMatchers("/products/add").hasRole("ADMIN")
-                .antMatchers("/register").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/", true)
-                .and()
-                .logout().permitAll()
-               .logoutSuccessUrl("/")
-               .invalidateHttpSession(true)
-               .deleteCookies("JSESSIONID")
-                .and()
-                .exceptionHandling().accessDeniedPage("/")
-        ;*/
 
         http
                 .csrf().disable()

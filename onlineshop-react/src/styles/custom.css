@@ -15,18 +15,17 @@ body {
 }
 
 .card:hover {
-    box-shadow: 0px 0px 50px rgba(0.5,0.5,0.5,0.5);
+    box-shadow: 0px 0px 50px rgba(0.5, 0.5, 0.5, 0.5);
     height: 100%;
 }
 
 img {
     opacity: 0.7;
 }
+
 .card:hover img {
     opacity: 1;
 }
-
-
 
 .form-link {
 
@@ -44,6 +43,7 @@ a {
 a:hover {
     color: #5aefca;
 }
+
 a:active {
     color: #FA6B2B;
 }
@@ -53,11 +53,13 @@ a:active {
     background-color: #c5f4e294;
     border: 1px solid rgba(150, 239, 213, 0.83);
 }
+
 .btn-sm {
     display: inline-flex;
     padding: 0;
     font-size: 21px;
 }
+
 .far, .fas {
     font-size: 21px;
     margin-right: 10px;
@@ -67,16 +69,20 @@ a:active {
 .text-custom {
     color: #5aefca;
 }
+
 .card-img-top {
     /*height: 15vw;*/
     /*object-fit: cover;*/
 }
+
 .card-text {
     opacity: 0;
 }
+
 .card:hover .card-text {
     opacity: 1;
 }
+
 .zoom {
     -webkit-transition: all 0.35s ease-in-out;
     -moz-transition: all 0.35s ease-in-out;
@@ -101,7 +107,7 @@ a:active {
 .products-grid {
     display: grid;
     grid-gap: 40px;
-    grid-template-columns: repeat( auto-fill, minmax(350px, 1fr) ) ;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-gap: 40px;
     margin: 40px 100px 40px 100px;
 }

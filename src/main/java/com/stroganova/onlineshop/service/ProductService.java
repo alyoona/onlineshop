@@ -2,7 +2,6 @@ package com.stroganova.onlineshop.service;
 
 import com.stroganova.onlineshop.entity.Product;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface ProductService {

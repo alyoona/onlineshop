@@ -1,17 +1,17 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 
 export default function LoginNavMenuItem() {
-  
-  return (
+
+    return (
         <li className="nav-item">
             <NavLink to="/login"
-            className="nav-link" 
-            activeClassName="active" 
+                     className="nav-link"
+                     activeClassName="active"
             >
-            <i className="fas fa-sign-in-alt text-custom my-auto"></i>
-            Login</NavLink>
+                <i className="fas fa-sign-in-alt text-custom my-auto"/>
+                Login</NavLink>
         </li>
-  )
+    )
 }

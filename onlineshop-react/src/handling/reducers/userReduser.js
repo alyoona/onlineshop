@@ -1,4 +1,4 @@
-import { AUTHENTICATED, LOGOUT } from '../actions/types';
+import {AUTHENTICATED, LOGOUT} from '../actions/types';
 
 const initialState = {
     username: "",
@@ -6,14 +6,14 @@ const initialState = {
     loggedIn: false
 };
 
-export default function(state = initialState, action) {
-    switch(action.type) { 
+export default function (state = initialState, action) {
+    switch (action.type) {
         case AUTHENTICATED:
-            return action.payload
+            return action.payload;
         case LOGOUT:
-            return action.payload;    
+            return action.payload;
         default:
             return state;
-        
+
     }
 }

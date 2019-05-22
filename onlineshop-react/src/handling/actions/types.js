@@ -9,7 +9,7 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const UPDATE_PRODUCT_SUBMIT = "UPDATE_PRODUCT_SUBMIT";
 export const OPEN_CART = "OPEN_CART";
 export const AUTHENTICATED = "AUTHENTICATED";
-export const LOGOUT ="LOGOUT";
+export const LOGOUT = "LOGOUT";
 
 
 

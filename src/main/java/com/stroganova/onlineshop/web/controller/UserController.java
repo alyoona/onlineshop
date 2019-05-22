@@ -1,7 +1,6 @@
 package com.stroganova.onlineshop.web.controller;
 
 import com.stroganova.onlineshop.entity.User;
-import com.stroganova.onlineshop.entity.UserRole;
 import com.stroganova.onlineshop.service.SecurityService;
 import com.stroganova.onlineshop.service.impl.SecurityServiceDefault;
 import org.slf4j.Logger;

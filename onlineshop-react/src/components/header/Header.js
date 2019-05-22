@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import Promotion from './promotion/Promotion';
-import NanvigationMenu from './navigation/NanvigationMenu';
+import NavigationMenu from './navigation/NavigationMenu';
 
 class Header extends Component {
     render() {
         return (
             <header>
                 <Promotion />
-                <NanvigationMenu />
+                <NavigationMenu />
             </header>
         )
     }
